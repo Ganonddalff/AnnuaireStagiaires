@@ -1736,10 +1736,10 @@
 							},
 							"font": "Arial;13;0",
 							"left": 808,
-							"top": 472,
+							"top": 464,
 							"width": 457,
 							"height": 289,
-							"text": "remarques :\n\n*classe stagiaire\n comporte 2 attributs pour la promo  (typePromo: String et numeroPromo:Int) pour la recherche multicritères"
+							"text": "remarques :\n\n*classe stagiaire\n comporte 2 attributs pour la promo  (typePromo: String et numeroPromo:Int) pour la recherche multicritères\n\n\nMateusz"
 						},
 						{
 							"_type": "UMLAssociationView",
