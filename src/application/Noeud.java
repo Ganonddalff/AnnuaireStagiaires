@@ -9,7 +9,13 @@ public class Noeud {
 	// déclaration des constructeurs
 	public Noeud() {
 	}
-
+	// constructeur pour une feuille
+	public Noeud(Stagiaire stagiaire) {
+		this.stagiaire=stagiaire;
+		this.noeudDroit=null;
+		this.noeudGauche=null;
+	}
+	
 	public Noeud(Stagiaire stagiaire,Noeud noeudDroit,Noeud noeudGauche) {
 		this.stagiaire=stagiaire;
 		this.noeudDroit=noeudDroit;
@@ -42,7 +48,7 @@ public class Noeud {
 		this.noeudGauche = noeudGauche;
 	}
 	
-	
+
 	
 	
 	
