@@ -2,6 +2,12 @@
 *.class
 *.classpath
 
+<<<<<<< HEAD
+=======
+# Eclipse Core      
+.project
+
+>>>>>>> branch 'master' of https://github.com/Ganonddalff/AnnuaireStagiaires
 # Log file
 *.log
 
