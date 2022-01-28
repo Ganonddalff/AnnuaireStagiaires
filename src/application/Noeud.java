@@ -1,6 +1,6 @@
 package application;
 
-public class Noeud {
+public class Noeud  {
 	// déclaration des attributs
 	Stagiaire stagiaire =new Stagiaire();
 	Noeud noeudDroit = new Noeud();
@@ -48,6 +48,7 @@ public class Noeud {
 		this.noeudGauche = noeudGauche;
 	}
 	
+
 
 	
 	

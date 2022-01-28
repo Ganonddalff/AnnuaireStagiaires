@@ -1,6 +1,6 @@
 package application;
 
-public class Stagiaire extends Personne{
+public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 
 	// déclaration des attributs
 	private int codeDepartement;
@@ -56,4 +56,16 @@ public class Stagiaire extends Personne{
 		this.dateEntree = dateEntree;
 	}
 	
+	@Override
+	public int compareTo(Stagiaire stagiaire) {
+		int i = this.nom.compareTo(stagiaire.getNom());
+		if ( i == 0) {
+			i = this.prenom.compareTo(stagiaire.getPrenom());
+			if (i == 0) {
+				i = this.typePromo.compareTo(stagiaire.getTypePromo());
+			}
+		}
+		
+		return i;
+	}
 }
