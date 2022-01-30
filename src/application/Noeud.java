@@ -2,12 +2,15 @@ package application;
 
 public class Noeud  {
 	// déclaration des attributs
-	Stagiaire stagiaire =new Stagiaire();
-	Noeud noeudDroit = new Noeud();
-	Noeud noeudGauche = new Noeud();
+	Stagiaire stagiaire;
+	Noeud noeudDroit ;
+	Noeud noeudGauche;
 	
 	// déclaration des constructeurs
 	public Noeud() {
+		this.stagiaire=null;
+		this.noeudDroit=null;
+		this.noeudGauche=null;
 	}
 	// constructeur pour une feuille
 	public Noeud(Stagiaire stagiaire) {

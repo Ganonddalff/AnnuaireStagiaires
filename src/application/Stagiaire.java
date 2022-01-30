@@ -4,19 +4,17 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 
 	// déclaration des attributs
 	private int codeDepartement;
-	private String typePromo;
-	private int numeroPromo;
+	private String promo;
 	private int dateEntree;
 	
 	// déclaration des constructeurs
 	public Stagiaire() {
 	}
 
-	public Stagiaire(String nom,String prenom, int codeDepartement, String typePromo,int numeroPromo,int dateEntree) {
+	public Stagiaire(String nom,String prenom, int codeDepartement, String promo,int dateEntree) {
 		super(nom,prenom);
 		this.codeDepartement=codeDepartement;
-		this.typePromo=typePromo;
-		this.numeroPromo=numeroPromo;
+		this.promo=promo;
 		this.dateEntree=dateEntree;
 		
 	}
@@ -32,23 +30,15 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 		this.codeDepartement = codeDepartement;
 	}
 
-	public String getTypePromo() {
-		return typePromo;
+	public String getPromo() {
+		return promo;
 	}
 
-	public void setTypePromo(String typePromo) {
-		this.typePromo = typePromo;
+	public void setPromo(String promo) {
+		this.promo = promo;
 	}
 
-	public int getNumeroPromo() {
-		return numeroPromo;
-	}
-
-	public void setNumeroPromo(int numeroPromo) {
-		this.numeroPromo = numeroPromo;
-	}
-
-	public int getDateEntree() {
+		public int getDateEntree() {
 		return dateEntree;
 	}
 
@@ -62,7 +52,7 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 		if ( i == 0) {
 			i = this.prenom.compareTo(stagiaire.getPrenom());
 			if (i == 0) {
-				i = this.typePromo.compareTo(stagiaire.getTypePromo());
+				i = this.promo.compareTo(stagiaire.getPromo());
 			}
 		}
 		
