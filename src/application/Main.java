@@ -12,7 +12,7 @@ public class Main extends Application {
 
 
 	public void start(Stage primaryStage) {
-	/*	try {
+		/*	try {
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -30,14 +30,35 @@ public class Main extends Application {
 			//br va lire ligne par ligne on crée donc une variable line
 			String line;
 			while((line = br.readLine()) != null) { //tant que line n'est pas nul on continue
-				System.out.println(line);
-			}
+				if (line=="[*]") {
+					line=br.readLine();
+				}
+				else {
 
+					String nom = line;
+					line = br.readLine();
+					String prenom = line;
+					line = br.readLine();
+					String codeDepartement = line;
+					line = br.readLine();
+					String promo = line;
+					line = br.readLine();
+					String anneeEntree =  line ;
+					line = br.readLine();
+					new Stagiaire (nom,prenom,codeDepartement,promo, anneeEntree);
+					System.out.println("nom : " +nom +" prénom : "+prenom+" Dpt : "+codeDepartement+" Promo : "+promo+ " Entré en : "+anneeEntree);
+				}
+			}
+		
+		
 		}
+
+
 		catch(IOException e) {
 			System.out.println("Une erreur est survenue. Déso.");
 			e.printStackTrace();
 		}
+
 	}
 
 

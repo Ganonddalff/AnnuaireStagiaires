@@ -3,32 +3,34 @@ package application;
 public class Stagiaire extends Personne{
 
 	// déclaration des attributs
-	private int codeDepartement;
+	private String codeDepartement;
 	private String typePromo;
-	private int numeroPromo;
-	private int dateEntree;
+	private String dateEntree;
+	private int nbStagiaires;
 	
 	// déclaration des constructeurs
 	public Stagiaire() {
 	}
 
-	public Stagiaire(String nom,String prenom, int codeDepartement, String typePromo,int numeroPromo,int dateEntree) {
+	public Stagiaire(String nom,String prenom, String codeDepartement, String typePromo,String dateEntree) {
 		super(nom,prenom);
 		this.codeDepartement=codeDepartement;
 		this.typePromo=typePromo;
-		this.numeroPromo=numeroPromo;
+	
 		this.dateEntree=dateEntree;
+		nbStagiaires++;
+	
 		
 	}
 
 	
 	//  getters et setters
 
-	public int getCodeDepartement() {
+	public String getCodeDepartement() {
 		return codeDepartement;
 	}
 
-	public void setCodeDepartement(int codeDepartement) {
+	public void setCodeDepartement(String codeDepartement) {
 		this.codeDepartement = codeDepartement;
 	}
 
@@ -40,20 +42,19 @@ public class Stagiaire extends Personne{
 		this.typePromo = typePromo;
 	}
 
-	public int getNumeroPromo() {
-		return numeroPromo;
-	}
 
-	public void setNumeroPromo(int numeroPromo) {
-		this.numeroPromo = numeroPromo;
-	}
 
-	public int getDateEntree() {
+
+
+	public String getDateEntree() {
 		return dateEntree;
 	}
 
-	public void setDateEntree(int dateEntree) {
+	public void setDateEntree(String dateEntree) {
 		this.dateEntree = dateEntree;
 	}
 	
+	public int getnbStagiaires() {
+	return nbStagiaires;
+	}
 }
