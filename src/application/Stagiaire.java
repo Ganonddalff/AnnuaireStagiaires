@@ -48,8 +48,8 @@ public class Stagiaire extends Personne {
 
 	@Override
 	public String toString() {
-		return "Nom=" + nom + ", Prenom=" + prenom+"codeDepartement=" + codeDepartement + ", typePromo=" + typePromo + ", dateEntree="
-				+ dateEntree + "\n" ; //+ ", getNom()="
+		return "\n"+"Nom=" + nom + ", Prenom=" + prenom+"codeDepartement=" + codeDepartement + ", typePromo=" + typePromo + ", dateEntree="
+				+ dateEntree + "" ; //+ ", getNom()="
 			//	+ getNom() + ", getPrenom()=" + getPrenom() + ", getClass()=" + getClnbStagiairesass() + ", hashCode()="
 			//	+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
