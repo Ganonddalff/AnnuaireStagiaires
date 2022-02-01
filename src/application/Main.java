@@ -23,12 +23,14 @@ public class Main extends Application {
 		} */
 		String file = "/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.DON"; // On met le fichier et son adresse dans le String file
 
+		Individu tab = new Individu();
 
 		//On invoque BufferedReader pour lire les gros fichiers texte
 		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
 
 			//br va lire ligne par ligne on crée donc une variable line
 			String line;
+	//		String lineDpt;
 			while((line = br.readLine()) != null) { //tant que line n'est pas nul on continue
 				if (line=="[*]") {
 					line=br.readLine();
@@ -45,19 +47,31 @@ public class Main extends Application {
 					line = br.readLine();
 					String anneeEntree =  line ;
 					line = br.readLine();
-					new Stagiaire (nom,prenom,codeDepartement,promo, anneeEntree);
-					System.out.println("nom : " +nom +" prénom : "+prenom+" Dpt : "+codeDepartement+" Promo : "+promo+ " Entré en : "+anneeEntree);
+					tab.ajouterStagiaire(new Stagiaire (nom,prenom,codeDepartement,promo, anneeEntree));
+					//System.out.println("nom : " +nom +" prénom : "+prenom+" Dpt : "+codeDepartement+" Promo : "+promo+ " Entré en : "+anneeEntree);
+
+
 				}
 			}
-		
-		
+
 		}
+
 
 
 		catch(IOException e) {
 			System.out.println("Une erreur est survenue. Déso.");
 			e.printStackTrace();
 		}
+
+
+		//for (int i=0;tab.getLesStagiaires()!=null;i++) {
+			for (int j=0;j<tab.getLesStagiaires().length;j++) {
+				System.out.println(tab.getLesStagiaires()[j].getPrenom());
+				
+			}
+	//		break;
+	//}
+
 
 	}
 

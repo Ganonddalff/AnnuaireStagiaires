@@ -2,7 +2,7 @@ package application;
 
 public class Individu {
 	
-	public static final int NB_MAX_STAGIAIRES=2000;
+	public static final int NB_MAX_STAGIAIRES=1365;
 	private Stagiaire[]lesStagiaires;
 	private int nbStagiaires;
 
