@@ -18,7 +18,7 @@ public class Stagiaire extends Personne{
 		this.typePromo=typePromo;
 	
 		this.dateEntree=dateEntree;
-		nbStagiaires++;
+		this.nbStagiaires++;
 	
 		
 	}
@@ -45,6 +45,14 @@ public class Stagiaire extends Personne{
 
 
 
+
+	@Override
+	public String toString() {
+		return "nom=" + nom + ", prenom=" + prenom+"codeDepartement=" + codeDepartement + ", typePromo=" + typePromo + ", dateEntree="
+				+ dateEntree + ", nbStagiaires=" + nbStagiaires + "\n" ; //+ ", getNom()="
+			//	+ getNom() + ", getPrenom()=" + getPrenom() + ", getClass()=" + getClass() + ", hashCode()="
+			//	+ hashCode() + ", toString()=" + super.toString() + "]";
+	}
 
 	public String getDateEntree() {
 		return dateEntree;
