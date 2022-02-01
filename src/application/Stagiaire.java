@@ -1,12 +1,12 @@
 package application;
 
-public class Stagiaire extends Personne{
+public class Stagiaire extends Personne {
 
 	// déclaration des attributs
 	private String codeDepartement;
 	private String typePromo;
 	private String dateEntree;
-	private int nbStagiaires;
+	protected int nbStagiaires;
 	
 	// déclaration des constructeurs
 	public Stagiaire() {
@@ -18,7 +18,7 @@ public class Stagiaire extends Personne{
 		this.typePromo=typePromo;
 	
 		this.dateEntree=dateEntree;
-		this.nbStagiaires++;
+	//	this.nbStagiaires++;
 	
 		
 	}
@@ -48,9 +48,9 @@ public class Stagiaire extends Personne{
 
 	@Override
 	public String toString() {
-		return "nom=" + nom + ", prenom=" + prenom+"codeDepartement=" + codeDepartement + ", typePromo=" + typePromo + ", dateEntree="
-				+ dateEntree + ", nbStagiaires=" + nbStagiaires + "\n" ; //+ ", getNom()="
-			//	+ getNom() + ", getPrenom()=" + getPrenom() + ", getClass()=" + getClass() + ", hashCode()="
+		return "Nom=" + nom + ", Prenom=" + prenom+"codeDepartement=" + codeDepartement + ", typePromo=" + typePromo + ", dateEntree="
+				+ dateEntree + "\n" ; //+ ", getNom()="
+			//	+ getNom() + ", getPrenom()=" + getPrenom() + ", getClass()=" + getClnbStagiairesass() + ", hashCode()="
 			//	+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
@@ -62,7 +62,7 @@ public class Stagiaire extends Personne{
 		this.dateEntree = dateEntree;
 	}
 	
-	public int getnbStagiaires() {
+/*	public int getnbStagiaires() {
 	return nbStagiaires;
-	}
+	}*/
 }

@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 
 
-	public void start(Stage primaryStage) throws FileNotFoundException {
+	public void start(Stage primaryStage) throws FileNotFoundException  {
 		/*	try {
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
@@ -26,8 +26,8 @@ public class Main extends Application {
 			e.printStackTrace();
 		} */
 		String fileImport = "/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.DON"; // On met le fichier et son adresse dans le String file
-	//	String fileExport = "/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.bin";
-	//	Individu tab = new Individu();
+		//	String fileExport = "/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.bin";
+		//	Individu tab = new Individu();
 		IndividuList liste = new IndividuList();
 
 		//On invoque BufferedReader pour lire les gros fichiers texte
@@ -63,22 +63,39 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		//for (int i=0;tab.getLesStagiaires()!=null;i++) {
-	//	for (int j=0;j<liste.getLesStagiaires().length;j++) {
-			//System.out.println("La liste est la suivante : "+Arrays.toString((Stagiaire[]) liste.toArray(new Stagiaire[((Object) liste).size()])));
-			//System.out.println(tab.getLesStagiaires()[j].getPrenom());				
-		
-//		}
-		//		break;
-		
-		
-		System.out.println("liste : "+liste.toString());
-		}
-		//FileOutputStream output = new FileOutputStream(new File("/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.bin"));
-	//	tab.write(output);
-	//}
+		//	for (int j=0;j<liste.getLesStagiaires().length;j++) {
+		//System.out.println("La liste est la suivante : "+Arrays.toString((Stagiaire[]) liste.toArray(new Stagiaire[((Object) liste).size()])));
+		//System.out.println(tab.getLesStagiaires()[j].getPrenom());				
 
-	
-	
+		//		}
+		//		break;
+
+
+		System.out.println("liste : "+liste.toString());
+
+		try {
+			File bin = new File("/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.bin");
+			if (bin.createNewFile()) {
+				System.out.println("Fichier créé: " + bin.getName());
+			} else {
+				System.out.println("Le fichier existe");
+			}
+		} catch (IOException e) {
+			System.out.println("Erreur.");
+			e.printStackTrace();
+		}
+
+		try {
+			FileWriter export = new FileWriter("/home/matt/Documents/ISIKA/Projet1/STAGIAIRES.bin");
+			export.write(liste.toString());
+			export.close();
+			System.out.println("Success");
+		} catch (IOException e) {
+			System.out.println("Erreur");
+			e.printStackTrace();
+		}
+	}
+
 
 	public static void main(String[] args) {
 		launch(args);
