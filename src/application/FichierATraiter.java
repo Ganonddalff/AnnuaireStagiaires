@@ -128,9 +128,9 @@ public class FichierATraiter {
 			raf.seek(index*150);
 			raf.writeChars(stagiaire.getNom()+stagiaire.getPrenom()+stagiaire.getCodeDepartement()+stagiaire.getPromo());					
 			raf.writeInt(stagiaire.getDateEntree());
-			raf.writeInt(-1);
-			raf.writeInt(-1);
-			raf.writeInt(-1);		
+			raf.writeInt(-1);// IndexEnfantGauche
+			raf.writeInt(-1);// IndexEnfantDroit
+			raf.writeInt(-1);// indexDoublon		
 			
 		
 			raf.close();
@@ -175,10 +175,111 @@ public class FichierATraiter {
  }//lire
    
  
+ public static void ecrireIndexEnfantGaucheDsParent(int indexParent, int indexEnfant) {
+
+	 
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+			raf.seek(indexParent*150+138);
+			raf.writeInt(indexEnfant);// IndexEnfantGauche
+	
+			raf.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+ 
+ }
+ 
+ 
+ public static void ecrireIndexEnfantDroitDsParent(int indexParent, int indexEnfant) { 
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+
+			raf.seek(indexParent*150+142);
+			raf.writeInt(indexEnfant);// IndexEnfantDroit
+			raf.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+}
+ 
+ 
+ public static void ecrireIndexEnfantDoublonDsParent(int indexParent, int indexEnfant) {	 
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+
+			raf.seek(indexParent*150+146);
+			raf.writeInt(indexEnfant);// IndexDoublon
+			raf.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+}
  
  
  
-   
+ 
+ public static int lire1IndexEnfantGauche(int index) {
+		int IndexEnfantGauche=0;
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+			raf.seek(index*150+138);
+			IndexEnfantGauche=raf.readInt();		
+			raf.close();		
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return IndexEnfantGauche;
+	 
+}//lire
+ 
+ 
+ public static int lire1IndexEnfantDroit(int index) {
+		int IndexEnfantDroit=0;
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+			raf.seek(index*150+142);
+			IndexEnfantDroit=raf.readInt();		
+			raf.close();		
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return IndexEnfantDroit;
+	 
+}//lire
+ 
+ 
+ public static int lire1IndexEnfantDoublon(int index) {
+		int IndexEnfantDoublon=0;
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+			raf.seek(index*150+146);
+			IndexEnfantDoublon=raf.readInt();		
+			raf.close();		
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return IndexEnfantDoublon;
+	 
+}//lire
+ 
 }
 
 

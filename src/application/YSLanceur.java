@@ -28,23 +28,40 @@ public class YSLanceur {
 		file.delete();
 		
 
-		for (int i=0; i<listestagiaires.size();i++) {
-		//System.out.println(" "+j);
-		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i),i);
-	
-		}
-		String lecture="";
-		//listestagiaires.size()
-		for (int i=0; i<listestagiaires.size();i++) {
-		//lecture+=FichierATraiter.lireUnNoeudFichierBinaire(i);
-			
-			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
-		
-
-		}
+//		for (int i=0; i<listestagiaires.size();i++) {
+//		//System.out.println(" "+j);
+//		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i),i);
+//	
+//		}
+//		String lecture="";
+//		//listestagiaires.size()
+//		for (int i=0; i<listestagiaires.size();i++) {
+//		//lecture+=FichierATraiter.lireUnNoeudFichierBinaire(i);
+//			
+//			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
+//		
+//
+//		}
 		
 		//System.out.println(lecture);
+		
+		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0),0);
+		
 		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+		FichierATraiter.ecrireIndexEnfantGaucheDsParent(0, 3);
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+		
+		FichierATraiter.ecrireIndexEnfantDroitDsParent(0, 4);
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+		FichierATraiter.ecrireIndexEnfantDoublonDsParent(0, 6);
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+		
+		
+		System.out.println("\n index Gauche de 0 "+ FichierATraiter.lire1IndexEnfantGauche(0));
+		System.out.println("\n index Droit de 0 "+ FichierATraiter.lire1IndexEnfantDroit(0));
+		System.out.println("\n index doublon de 0 "+ FichierATraiter.lire1IndexEnfantDoublon(0));
+		
+		
 		
 	}
 }
