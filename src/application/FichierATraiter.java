@@ -119,19 +119,20 @@ public class FichierATraiter {
  
 
 
- public static void ecrire1BlocDsFichierBinaire(Stagiaire stagiaire,int index) {
+ public static void ecrire1BlocDsFichierBinaire(Stagiaire stagiaire) {
 
 	 
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
-
-			raf.seek(index*150);
+			int indexBlocACreer;
+			indexBlocACreer=(int)raf.length();
+			raf.seek(indexBlocACreer);
 			raf.writeChars(stagiaire.getNom()+stagiaire.getPrenom()+stagiaire.getCodeDepartement()+stagiaire.getPromo());					
 			raf.writeInt(stagiaire.getDateEntree());
 			raf.writeInt(-1);// IndexEnfantGauche
 			raf.writeInt(-1);// IndexEnfantDroit
 			raf.writeInt(-1);// indexDoublon		
-			
+
 		
 			raf.close();
 			

@@ -45,7 +45,7 @@ public class YSLanceur {
 		
 		//System.out.println(lecture);
 		
-		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0),0);
+		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
 		
 		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
 		FichierATraiter.ecrireIndexEnfantGaucheDsParent(0, 3);
@@ -61,7 +61,10 @@ public class YSLanceur {
 		System.out.println("\n index Droit de 0 "+ FichierATraiter.lire1IndexEnfantDroit(0));
 		System.out.println("\n index doublon de 0 "+ FichierATraiter.lire1IndexEnfantDoublon(0));
 		
+	//*********************	
 		
+		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(1));
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(1));
 		
 	}
 }
