@@ -1,9 +1,9 @@
 package application;
 
-public class Stagiaire extends Personne implements Comparable<Stagiaire>{
+public class Stagiaire extends Personne {
 
 	// déclaration des attributs
-	private int codeDepartement;
+	private String codeDepartement;
 	private String promo;
 	private int dateEntree;
 	
@@ -11,7 +11,7 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 	public Stagiaire() {
 	}
 
-	public Stagiaire(String nom,String prenom, int codeDepartement, String promo,int dateEntree) {
+	public Stagiaire(String nom,String prenom, String codeDepartement, String promo,int dateEntree) {
 		super(nom,prenom);
 		this.codeDepartement=codeDepartement;
 		this.promo=promo;
@@ -22,11 +22,11 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 	
 	//  getters et setters
 
-	public int getCodeDepartement() {
+	public String getCodeDepartement() {
 		return codeDepartement;
 	}
 
-	public void setCodeDepartement(int codeDepartement) {
+	public void setCodeDepartement(String codeDepartement) {
 		this.codeDepartement = codeDepartement;
 	}
 
@@ -45,17 +45,19 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 	public void setDateEntree(int dateEntree) {
 		this.dateEntree = dateEntree;
 	}
+
 	
-	@Override
-	public int compareTo(Stagiaire stagiaire) {
-		int i = this.nom.compareTo(stagiaire.getNom());
-		if ( i == 0) {
-			i = this.prenom.compareTo(stagiaire.getPrenom());
-			if (i == 0) {
-				i = this.promo.compareTo(stagiaire.getPromo());
-			}
-		}
-		
-		return i;
-	}
+//	implements Comparable<Stagiaire>
+//	@Override
+//	public int compareTo(Stagiaire stagiaire) {
+//		int i = this.nom.compareTo(stagiaire.getNom());
+//		if ( i == 0) {
+//			i = this.prenom.compareTo(stagiaire.getPrenom());
+//			if (i == 0) {
+//				i = this.promo.compareTo(stagiaire.getPromo());
+//			}
+//		}
+//		
+//		return i;
+//	}
 }

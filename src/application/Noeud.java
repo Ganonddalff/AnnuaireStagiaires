@@ -2,57 +2,67 @@ package application;
 
 public class Noeud  {
 	// déclaration des attributs
-	Stagiaire stagiaire;
-	Noeud noeudDroit ;
-	Noeud noeudGauche;
+	String itemStagiaire;
+	int indexDroit ;
+	int indexGauche;
+	int indexDoublon;
+	
 	
 	// déclaration des constructeurs
 	public Noeud() {
-		this.stagiaire=null;
-		this.noeudDroit=null;
-		this.noeudGauche=null;
+		this.itemStagiaire="";
+		this.indexDroit=-1;
+		this.indexGauche=-1;
+		this.indexDoublon=-1;
 	}
 	// constructeur pour une feuille
-	public Noeud(Stagiaire stagiaire) {
-		this.stagiaire=stagiaire;
-		this.noeudDroit=null;
-		this.noeudGauche=null;
+	public Noeud(String itemStagiaire) {
+		this.itemStagiaire=itemStagiaire;
+		this.indexDroit=-1;
+		this.indexGauche=-1;
+		this.indexDoublon=-1;
 	}
 	
-	public Noeud(Stagiaire stagiaire,Noeud noeudDroit,Noeud noeudGauche) {
-		this.stagiaire=stagiaire;
-		this.noeudDroit=noeudDroit;
-		this.noeudGauche=noeudGauche;
+	public Noeud(String itemStagiaire,int indexDroit,int indexGauche,int indexDoublon) {
+		this.itemStagiaire=itemStagiaire;
+		this.indexDroit=indexDroit;
+		this.indexGauche=indexGauche;
 		
 	}
 	//  getters et setters
 
-	public Stagiaire getStagiaire() {
-		return stagiaire;
+	public String getItemStagiaire() {
+		return itemStagiaire;
 	}
 
-	public void setStagiaire(Stagiaire stagiaire) {
-		this.stagiaire = stagiaire;
+	public void setStagiaire(String itemStagiaire) {
+		this.itemStagiaire = itemStagiaire;
 	}
 
-	public Noeud getNoeudDroit() {
-		return noeudDroit;
+	public int getIndexDroit() {
+		return indexDroit;
 	}
 
-	public void setNoeudDroit(Noeud noeudDroit) {
-		this.noeudDroit = noeudDroit;
+	public void setIndexDroit(int indexDroit) {
+		this.indexDroit = indexDroit;
 	}
 
-	public Noeud getNoeudGauche() {
-		return noeudGauche;
+	public int getIndexGauche() {
+		return indexGauche;
 	}
 
-	public void setNoeudGauche(Noeud noeudGauche) {
-		this.noeudGauche = noeudGauche;
+	public void setIndexGauche(int indexGauche) {
+		this.indexGauche = indexGauche;
 	}
 	
 
+	public int getIndexDoublon() {
+		return indexDoublon;
+	}
 
+	public void setindexDoublon(int indexDoublon) {
+		this.indexDoublon = indexDoublon;
+	}
 	
 	
 	
