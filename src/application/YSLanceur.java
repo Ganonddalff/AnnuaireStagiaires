@@ -8,7 +8,9 @@ import java.util.Vector;
 public class YSLanceur {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+	int index =0;	
+		
 //		Noeud testNoeud;
 //		
 //		Stagiaire s1 = new Stagiaire ("AA","A","93","AI 86",2012);
@@ -45,26 +47,55 @@ public class YSLanceur {
 		
 		//System.out.println(lecture);
 		
-		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
-		
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
-		FichierATraiter.ecrireIndexEnfantGaucheDsParent(0, 3);
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
-		
-		FichierATraiter.ecrireIndexEnfantDroitDsParent(0, 4);
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
-		FichierATraiter.ecrireIndexEnfantDoublonDsParent(0, 6);
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
-		
-		
-		System.out.println("\n index Gauche de 0 "+ FichierATraiter.lire1IndexEnfantGauche(0));
-		System.out.println("\n index Droit de 0 "+ FichierATraiter.lire1IndexEnfantDroit(0));
-		System.out.println("\n index doublon de 0 "+ FichierATraiter.lire1IndexEnfantDoublon(0));
+//		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
+//		
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+//		FichierATraiter.ecrireIndexEnfantGaucheDsParent(0, 3);
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+//		
+//		FichierATraiter.ecrireIndexEnfantDroitDsParent(0, 4);
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+//		FichierATraiter.ecrireIndexEnfantDoublonDsParent(0, 6);
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(0));
+//		
+//		
+//		System.out.println("\n index Gauche de 0 "+ FichierATraiter.lire1IndexEnfantGauche(0));
+//		System.out.println("\n index Droit de 0 "+ FichierATraiter.lire1IndexEnfantDroit(0));
+//		System.out.println("\n index doublon de 0 "+ FichierATraiter.lire1IndexEnfantDoublon(0));
 		
 	//*********************	
+		// on cree la racine du fichier
+
+		index = FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
+		System.out.println(" ***  "+" "+FichierATraiter.lire1BlocDsFichierBinaire(0));
+
 		
-		FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(1));
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(1));
+		for(int i=1; i<20; i++ ) {
+			index=FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i));	
+			FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
+			
+		}
+		
+		System.out.println("\n ***** \n");
+		
+		for(int i=0; i<20; i++ ) {
+			System.out.println("index "+i+" nom "+ listestagiaires.get(i).getNom());
+
+		}	
+		
+		System.out.println("\n ***** \n");	
+		
+		for(int i=0; i<20; i++ ) {
+			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
+
+		}	
+	
+
+		
+
+		
+		
+		
 		
 	}
 }
