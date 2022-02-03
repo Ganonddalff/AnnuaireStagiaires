@@ -373,16 +373,101 @@ public class FichierATraiter {
 
 	}
 
-//	public static void afficherInfixe(int indexCurrent) {
-//		if (lire1IndexEnfantGauche(indexCurrent) != -1) {
-//			afficherInfixe(lire1IndexEnfantGauche(lire1IndexEnfantGauche(indexCurrent)));
+	//methode pour trouver l'index d'un bloc stagiaire que l'on cherche 
+	public static void chercheIndexParent( int indexCurrent, Stagiaire stagiaire,int indexParent) {
+
+//		if(lire1BlocDsFB(indexCurrent) == null) {
+//			return indexCurrent;
 //		}
-//		System.out.println(" le nom " + lire1BlocDsFB(indexCurrent).getNom());
-//		if (lire1IndexEnfantDroit(indexCurrent) != -1) {
-//			afficherInfixe(lire1IndexEnfantDroit(lire1IndexEnfantDroit(indexCurrent)));
+		
+		System.out.println(lire1BlocDsFB(indexCurrent).getNom() +" "+stagiaire.getNom());
+		
+		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) == 0) {
+			System.out.println(indexCurrent+" "+indexParent);
+	
+
+
+		}else if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) > 0) {
+			System.out.println("gauche");
+			chercheIndexParent(lire1IndexEnfantGauche(indexCurrent),stagiaire,indexCurrent);
+			
+		} else
+		//if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) < 0)
+		{
+			System.out.println("droit");
+			chercheIndexParent(lire1IndexEnfantDroit(indexCurrent),stagiaire,indexCurrent);
+		}
+		
+
+	}
+	
+
+	public static void supprimerStagiaire(int indexParent, int indexStagiaire) {
+
+		// si le stagiaire n'a pas d'enfant, on modifie l'indexEnfantXXX (correspondant
+		// au stagiaire) de son parent a -1
+		if (lire1IndexEnfantGauche(indexStagiaire) == -1 && lire1IndexEnfantDroit(indexStagiaire) == -1) {
+			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
+				ecrireIndexEnfantGaucheDsParent(indexParent, -1);
+
+			}
+			if (lire1IndexEnfantDroit(indexParent) == indexStagiaire) {
+				ecrireIndexEnfantDroitDsParent(indexParent, -1);
+			}
+			//rien a droite donc l'enfant gauche du stagiaire remplace le stagiaire dans l'IndexEnfantGauche du parent
+		} else if (lire1IndexEnfantDroit(indexStagiaire) == -1) {
+			// pour savoir si le stagiaire a supprimer se trouve dans l indexEnfantGauche ou droite  du parent
+			// dans le but de remplacer la valeur de l indexEnfantxxx du stagiaire par l index de l'enfant unique du stagiaire
+			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
+			ecrireIndexEnfantGaucheDsParent(indexParent, lire1IndexEnfantGauche(indexStagiaire));
+			}else {
+				ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantGauche(indexStagiaire));
+			}
+		} else if (lire1IndexEnfantGauche(indexStagiaire) == -1) {
+			ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantDroit(indexStagiaire));
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+//**************************************************	
+	//avoir avec Vincent
+	public static int pourquoireturn( int indexCurrent, Stagiaire stagiaire) {
+
+//		if(lire1BlocDsFB(indexCurrent) == null) {
+//			return indexCurrent;
 //		}
-//
-//	}
+		
+		System.out.println(lire1BlocDsFB(indexCurrent).getNom() +" "+stagiaire.getNom());
+		
+		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) == 0) {
+			System.out.println(indexCurrent);
+			return indexCurrent;
+			
+
+		}else if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) > 0) {
+			System.out.println("gauche");
+			pourquoireturn(lire1IndexEnfantGauche(indexCurrent),stagiaire);
+
+		} else
+		//if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) < 0)
+		{
+			System.out.println("droit");
+			pourquoireturn(lire1IndexEnfantDroit(indexCurrent),stagiaire);
+		}
+		return 42;
+
+	}
+	
+	
+	
 }
 
 // A toute personne qui est arrivé jusqu'ici merci d'avoir pris le temps de parcourir toutes ces lignes de java

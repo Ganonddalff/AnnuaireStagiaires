@@ -24,31 +24,31 @@ public class Arbre {
 	}
 
 	
-	public Noeud ajoutNoeud(int index, String itemStagiaire, int indexparent, String GDDR){
-		
-		try{
-			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
-		
-			
-		if (index == 0) {
-			
-			return new Noeud(itemStagiaire,-1,-1,-1);
-		}
-		if (index.getItemStagiaire().compareTo(itemStagiaire)>0) {
-			index.setIndexGauche(ajoutNoeud(index.getIndexGauche(),itemStagiaire));
-			
-		}else{
-			index.setNoeudDroit(ajoutNoeud(index.getNoeudDroit(),itemStagiaire));
-		}
-		
-		
-		raf.close();
-		return this.racine;
-		
-		}catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
+//	public Noeud ajoutNoeud(int index, String itemStagiaire, int indexparent, String GDDR){
+//		
+//		try{
+//			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin","rw");
+//		
+//			
+//		if (index == 0) {
+//			
+//			return new Noeud(itemStagiaire,-1,-1,-1);
+//		}
+//		if (index.getItemStagiaire().compareTo(itemStagiaire)>0) {
+//			index.setIndexGauche(ajoutNoeud(index.getIndexGauche(),itemStagiaire));
+//			
+//		}else{
+//			index.setNoeudDroit(ajoutNoeud(index.getNoeudDroit(),itemStagiaire));
+//		}
+//		
+//		
+//		raf.close();
+//		return this.racine;
+//		
+//		}catch (IOException e) {
+//			e.printStackTrace();
+//		} 
+//	}
 	
 //	//affichage via le parcours infixe
 //	// infixe : gauche noeud droit

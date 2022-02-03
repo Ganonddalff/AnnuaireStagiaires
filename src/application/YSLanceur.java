@@ -89,13 +89,18 @@ public class YSLanceur {
 			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
 
 		}	
-	
+		System.out.println("\n ***** \n");	
+		
+		int indexDuParentDuStag;
+
+		FichierATraiter.chercheIndexParent(0,listestagiaires.get(8),0);
 
 		
-
-		
-		
-		
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));
+		FichierATraiter.supprimerStagiaire(15,16);
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
+		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));	
 		
 	}
 }
