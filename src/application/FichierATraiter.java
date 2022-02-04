@@ -26,7 +26,7 @@ public class FichierATraiter {
 			System.out.println("Pb entrée sortie :" + e.getMessage());
 		}
 	}
-
+	// *******************************************************************
 	// decompose le fichier txt en objets Stagiaire qui sont stockés dans une list
 	public List<Stagiaire> fabriqueChaine() {
 		Stagiaire stagiaire;
@@ -121,7 +121,8 @@ public class FichierATraiter {
 		System.out.println(compteur);
 		return listestagiaires;
 	}
-
+	
+// *******************************************************************
 //ecrit le bloc stagiaire - comprenant les attributs de la classe Stagiaire et les indexEnfantGauche indexEnfantDroit et indexEnfantdoublon 
 //dans le fichier binaire - à la fin (derniere position) de ce fichier
 //cette methode retourne l'index du bloc qui vient d'etre ajouter dans le fichier
@@ -156,7 +157,9 @@ public class FichierATraiter {
 		return indexCurrent;
 
 	}// ecrire
-
+	
+	
+	// *******************************************************************
 	// cette methode ne sert que pour les tests. elle affiche le contenu de tt un
 	// bloc dans la console java
 	// en fonction de l'index du bloc
@@ -186,7 +189,8 @@ public class FichierATraiter {
 		return lecture;
 
 	}// lire
-
+	
+	// *******************************************************************
 	// methode pour lire le contenu du fichier binaire et le transformer en objet
 	// stagiaire
 	public static Stagiaire lire1BlocDsFB(int index) {
@@ -232,7 +236,8 @@ public class FichierATraiter {
 		return stagiaire;
 
 	}// lire
-
+	
+	// *******************************************************************
 	// permet de modifier l'indexEnfantGauche d'un bloc stagiaire a partir de
 	// l'index du bloc stagiaire enfant
 	public static void ecrireIndexEnfantGaucheDsParent(int indexParent, int indexEnfant) {
@@ -251,7 +256,7 @@ public class FichierATraiter {
 		}
 
 	}
-
+	// *******************************************************************
 	public static void ecrireIndexEnfantDroitDsParent(int indexParent, int indexEnfant) {
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin", "rw");
@@ -266,7 +271,8 @@ public class FichierATraiter {
 		}
 
 	}
-
+	
+	// *******************************************************************
 	public static void ecrireIndexEnfantDoublonDsParent(int indexParent, int indexEnfant) {
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin", "rw");
@@ -281,7 +287,7 @@ public class FichierATraiter {
 		}
 
 	}
-
+	// *******************************************************************
 	public static int lire1IndexEnfantGauche(int index) {
 		int IndexEnfantGauche = 0;
 		try {
@@ -297,7 +303,7 @@ public class FichierATraiter {
 		return IndexEnfantGauche;
 
 	}// lire
-
+	// *******************************************************************
 	public static int lire1IndexEnfantDroit(int index) {
 		int IndexEnfantDroit = 0;
 		try {
@@ -313,7 +319,9 @@ public class FichierATraiter {
 		return IndexEnfantDroit;
 
 	}// lire
-
+	
+	
+	// *******************************************************************
 	public static int lire1IndexEnfantDoublon(int index) {
 		int IndexEnfantDoublon = 0;
 		try {
@@ -329,7 +337,8 @@ public class FichierATraiter {
 		return IndexEnfantDoublon;
 
 	}// lire
-
+	
+	// *******************************************************************
 	// methode pour trouver le parent du stagaire afin de placer son index et donc
 	// de contruire l'arbre
 	public static void rechercheParentDsAB(int indexCurrent, Stagiaire stagiaire, int indexEnfant) {
@@ -395,7 +404,7 @@ public class FichierATraiter {
 
 			supprimer(lire1IndexEnfantDroit(indexCurrent),stagiaire,indexCurrent);
 		}
-		//si l'objet n'est pas dans le fichier on sort de la methode  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//si le stagiaire recherché n'est pas dans le fichier comment on sort de la methode  ????????????
 		
 		
 		
@@ -441,7 +450,7 @@ public class FichierATraiter {
 		}else {
 			
 			//Stagiaire a supprimé avec un enfant gauche et droit
-			// on doit prendre le plus petit (a gauche du sous arbre qui se trouve a droite du noeud a supprimer
+			// on doit prendre le plus petit (cad le +gauche) du sous arbre qui se trouve a droite du noeud a supprimer
 			//je vais chercher le dernier descendant (le + petit du sous arbre droit)
 			int indexRemplacant =  dernierDescendant(lire1IndexEnfantDroit(indexStagiaire));
 			//je remplace le stagiaire a supprimer par son remplacant en modifiant l'indexEnfantXXX du parent au stagiaire
@@ -453,13 +462,11 @@ public class FichierATraiter {
 				System.out.println(" supprimerStagiaire() ecrit dans le parent "+lire1BlocDsFB(indexParent).getNom()+" IndexEnfantDroit "+ indexRemplacant);
 			}
 			
-
-
 			
 			System.out.println(" dans "+lire1BlocDsFB(indexRemplacant).getNom()+"je mets a G "+lire1IndexEnfantGauche(indexStagiaire)+" D "+ lire1IndexEnfantDroit(indexStagiaire));
 			
 			supprimer(indexStagiaire,lire1BlocDsFB(indexRemplacant),0);
-			
+			// pourquoi  faut il mettre le ligne ci dessus avant les 2 lignes cidessous ?
 			// je dois recuperer les indexEnfantDroit et gauche du stagiaire pour les mettre dans son remplacant
 			ecrireIndexEnfantDroitDsParent(indexRemplacant,lire1IndexEnfantDroit(indexStagiaire));
 			ecrireIndexEnfantGaucheDsParent(indexRemplacant,lire1IndexEnfantGauche(indexStagiaire));
@@ -498,7 +505,25 @@ public class FichierATraiter {
 	}
 	
 	
-
+	
+	
+	//******************************************************
+	// methode pour MAJ/modifier
+	//si le nom n'est pas modifié il suffit de remplacer les attributs de stagiaire en conservant le meme index et les memes IndexEnfant
+	//si le nom est modifié il faut supprimer le stagiaire present dans le fichier et l'ajouter comme une nouvelle entrée
+	public static void majStagiaire(Stagiaire stagiaire, int indexStagiaire) {
+	
+		//on teste si le nom du stagiaire a changé
+		if (stagiaire.getNom().compareTo(lire1BlocDsFB(indexStagiaire).getNom()) == 0) {
+			
+			
+		}else {
+			
+		}
+	}
+	
+	
+     //       FIN DU PROGRAMME
 	//**************************************************	
 	//**************************************************	
 	//**************************************************	
