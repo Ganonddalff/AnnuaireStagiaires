@@ -1,5 +1,7 @@
 package application;
 
+import java.io.InputStream;
+
 //import javax.swing.JSpinner.ListEditor;
 
 import javafx.application.Application;
@@ -201,6 +203,23 @@ public class Main extends Application {
 							// TODO Auto-generated method stub
 							
 							/*****	ECRIRE ICI L'APPEL DE LA FONCTION AJOUTER UN STAGIAIRE *****/
+							
+							// On récupère les différents attributs avec getText()
+							String nomStagiaire = (String) champNom.getText();
+							String prenomStagiaire = (String) champPrenom.getText();
+							String deptStagiaire = champDept.getText();
+							String promoStagiaire = champPromo.getText();
+							//	Il faut convertir de string vers int avec parseInt
+							int dateEntreeStagiaire =  Integer.parseInt(champDateDebut.getText());
+							
+							//On crée le stagiaire
+							Stagiaire newStagiaire = new Stagiaire(nomStagiaire,prenomStagiaire,deptStagiaire,promoStagiaire,dateEntreeStagiaire);
+							
+							System.out.println(newStagiaire.getNom()+"\n"+
+												newStagiaire.getPrenom()+"\n"+
+													newStagiaire.getCodeDepartement()+"\n"+
+														newStagiaire.getPromo()+"\n"+
+															newStagiaire.getDateEntree());
 							
 							Label succesAjout = new Label("Créé avec succès");
 							gridAjout.add(succesAjout, 3, 7);
