@@ -11,15 +11,7 @@ public class YSLanceur {
 
 	int index =0;	
 		
-//		Noeud testNoeud;
-//		
-//		Stagiaire s1 = new Stagiaire ("AA","A","93","AI 86",2012);
-//		Stagiaire s2 = new Stagiaire ("MM","M","93","AI 78",2012);	
-//		Stagiaire s3 = new Stagiaire ("Senic","Yann","78","CDA 15",2021);
-//		Stagiaire s4 = new Stagiaire ("BB","B","93","AI 86",2012);
-//		Stagiaire sASUpprimer = new Stagiaire ("de L'ESCALOPIER","Agnès","45","AI 61",2003);
-//		
-//		Arbre arbreStagiaire =new Arbre();
+
 		
 		FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
 		List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
@@ -69,38 +61,56 @@ public class YSLanceur {
 		index = FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
 		System.out.println(" ***  "+" "+FichierATraiter.lire1BlocDsFichierBinaire(0));
 
-		
+		//on ajoute chaque stagiaire dans le fichier binaire et on cree le lien avec son parent dans la structure ABR
 		for(int i=1; i<20; i++ ) {
 			index=FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i));	
 			FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
 			
 		}
 		
-		System.out.println("\n ***** \n");
+//		System.out.println("\n ***** \n");
+//		
+//		for(int i=0; i<20; i++ ) {
+//			System.out.println("index "+i+" nom "+ listestagiaires.get(i).getNom());
+//
+//		}	
+//		
+//		System.out.println("\n ***** \n");	
 		
-		for(int i=0; i<20; i++ ) {
-			System.out.println("index "+i+" nom "+ listestagiaires.get(i).getNom());
+//		for(int i=0; i<20; i++ ) {
+//			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
+//
+//		}	
+//		System.out.println("\n ***** \n");	
+//		
 
-		}	
-		
-		System.out.println("\n ***** \n");	
-		
-		for(int i=0; i<20; i++ ) {
-			System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(i));
 
-		}	
-		System.out.println("\n ***** \n");	
-		
-		int indexDuParentDuStag;
 
-		FichierATraiter.chercheIndexParent(0,listestagiaires.get(8),0);
 
+// test pour supprimer un feuille		
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));
+//		FichierATraiter.supprimerStagiaire(15,16);
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));	
 		
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));
-		FichierATraiter.supprimerStagiaire(15,16);
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));	
+//test pour supprimer un stagiaire bouchet13 ayant un seul enfantbouamama14 (le parent est augereau4)
+//
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(4));		
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(13));
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(14));
+//		FichierATraiter.supprimerStagiaire(4,13);
+//		System.out.println("\n ***** \n");	
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(4));		
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(13));
+//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(14));
+//		System.out.println(" ***** ");	
+//		System.out.println(FichierATraiter.dernierDescendant(2));
 		
+		FichierATraiter.afficherInfixe(0);
+		
+		
+		FichierATraiter.supprimer(0,listestagiaires.get(3),0);
+		FichierATraiter.afficherInfixe(0);
 	}
 }
