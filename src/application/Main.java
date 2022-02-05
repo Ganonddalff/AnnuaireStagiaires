@@ -10,7 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-
+import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import javafx.scene.layout.*;
@@ -45,15 +45,17 @@ public class Main extends Application {
 			BorderPane root = new BorderPane();
 
 			//création d'une scère 1600x900
-			Scene scene = new Scene(root,1600,900);
+			final Scene scene = new Scene(root,1600,900,Color.DIMGRAY);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+
+
 
 			//Bar de titre 
 			primaryStage.setTitle("Projet 1 TSKB");
 
-			
-
+			// Choix de la couleur de fond de l'app
+			scene.setFill(Color.GRAY);
+			primaryStage.setScene(scene);
 			//Création de myMenu qui est une barre de menu
 			MenuBar myMenu = new MenuBar();
 
@@ -87,46 +89,65 @@ public class Main extends Application {
 
 			//ajouter les menus à la barre : 
 			myMenu.getMenus().addAll(menuFichier,menuEditer,menuAide); 
-
+			//afficher la barre de menu
 			root.setTop(myMenu);
-			//		Label monTexte = new Label("Bonjour");
-			//		root.setCenter(monTexte);
 
-			// Choix de la couleur de fond de l'app
-			scene.setFill(Color.DIMGRAY);
-			
-			
+			//Couleur root transparante pour couleur Pane seulement
+			root.setStyle("-fx-background-color: null;");
+
+
+
 			//Création du bouton ajouter
 			Button ajouterBtn = new Button("Ajouter un stagiaire");
-			root.setCenter(ajouterBtn);
-			
+			ajouterBtn.setLayoutX(700);
+			ajouterBtn.setLayoutY(450);
+	
+
 			//création du bouton afficher
 			Button afficherBtn = new Button("Afficher la liste");
-			root.setRight(afficherBtn);
+			afficherBtn.setLayoutX(300);
+			afficherBtn.setLayoutY(450);
+	
 			
+			//Création du bouton modifier un élément de la liste
+			Button modifierBtn = new Button("Modifier un stagiaire");
+			modifierBtn.setLayoutX(1100);
+			modifierBtn.setLayoutY(450);
+	
+			//grouper les boutons
+			Group groupeStagiaire = new Group();
+			groupeStagiaire.getChildren().addAll(ajouterBtn,afficherBtn,modifierBtn);
+			
+			//ajouter le groupe à root
+			
+			root.getChildren().add(groupeStagiaire);
+			
+			//Pas de couleur pour menubar
+			myMenu.setStyle("-fx-background-color: null;");
+		
 			//Lancement de primaryStage
 			primaryStage.show();
-			
+
 			//Action appuyer sur ajouter ouvre une nouvelle fenêtre
-			
+
 			ajouterBtn.setOnAction(new EventHandler<ActionEvent>() {
-				
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					
+
 					//On crée la deuxième fenêtre
 					Stage secondaryStage = new Stage();
-					
+
 					//On crée un grid pour cette fenêtre
 					GridPane gridAjout = new GridPane();
 					gridAjout.setAlignment(Pos.TOP_CENTER);
 					gridAjout.setHgap(10);
 					gridAjout.setVgap(10);
 					gridAjout.setPadding(new Insets(25, 25, 25, 25));
-					
+
 					//On crée une scène, plus petite que la 1ère
-					Scene sceneAjout = new Scene(gridAjout,1100,850);
+					Scene sceneAjout = new Scene(gridAjout,900,300,Color.GRAY);
 					sceneAjout.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 					//On lie la scène à la fenêtre
 					secondaryStage.setScene(sceneAjout);
@@ -134,17 +155,17 @@ public class Main extends Application {
 					secondaryStage.setTitle("Nouveau stagiaire");
 					//Et on l'affiche
 					secondaryStage.show();
-					
+
 					/****On ajoute des éléments : ****/
-					
+
 					//Le titre de la PAGE
-	/* Le texte*/	Text titreFenetre = new Text("Nouveau stagiaire");
+					/* Le texte*/	Text titreFenetre = new Text("Nouveau stagiaire");
 					titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 					/*Ajouter à la grille*/				
 					gridAjout.add(titreFenetre, 0, 0);
-					
+
 					//Les différents attributs du stagiaire
-					
+
 					//Le label nom
 					Label nomStagiaire = new Label("Nom : ");
 					gridAjout.add(nomStagiaire, 0, 1);
@@ -152,58 +173,58 @@ public class Main extends Application {
 					//Le champ nom
 					TextField champNom = new TextField();
 					gridAjout.add(champNom, 1, 1);
-					
+
 					// On répète pour tous les attributs
-					
+
 					//Rang 2 Prénom
-					
+
 					Label prenomStagiaire = new Label("Prénom : ");
 					gridAjout.add(prenomStagiaire, 0, 2);
-					
+
 					TextField champPrenom = new TextField();
 					gridAjout.add(champPrenom, 1, 2);
-					
+
 					//Rang 3 
-					
+
 					Label dept = new Label("Département : ");
 					gridAjout.add(dept, 0, 3);
-					
+
 					TextField champDept = new TextField();
 					gridAjout.add(champDept, 1, 3);
-							/*ajout d'un commentaire sur la grid*/
+					/*ajout d'un commentaire sur la grid*/
 					Label deptPrecision = new Label ("Attention ! entrez uniquement le numéro du département.");
 					gridAjout.add(deptPrecision, 3, 3);
-					
+
 					//Rang 4
-					
+
 					Label promo = new Label("Promotion : ");
 					gridAjout.add(promo, 0, 4);
-					
+
 					TextField champPromo = new TextField();
 					gridAjout.add(champPromo, 1, 4);
-					
+
 					//Rang 5
-					
+
 					Label dateDebut = new Label("Date de début de formation : ");
 					gridAjout.add(dateDebut, 0, 5);
-					
+
 					TextField champDateDebut = new TextField();
 					gridAjout.add(champDateDebut, 1, 5);
-					
+
 					Button saveAjout = new Button("Enregistrer");
 					HBox hbsaveAjout = new HBox(10);
 					hbsaveAjout.setAlignment(Pos.BOTTOM_RIGHT);
 					hbsaveAjout.getChildren().add(saveAjout);
 					gridAjout.add(saveAjout, 3, 6);
-					
+
 					saveAjout.setOnAction(new EventHandler<ActionEvent>() {
-						
+
 						@Override
 						public void handle(ActionEvent arg0) {
 							// TODO Auto-generated method stub
-							
+
 							/*****	ECRIRE ICI L'APPEL DE LA FONCTION AJOUTER UN STAGIAIRE *****/
-							
+
 							// On récupère les différents attributs avec getText()
 							String nomStagiaire = (String) champNom.getText();
 							String prenomStagiaire = (String) champPrenom.getText();
@@ -211,28 +232,51 @@ public class Main extends Application {
 							String promoStagiaire = champPromo.getText();
 							//	Il faut convertir de string vers int avec parseInt
 							int dateEntreeStagiaire =  Integer.parseInt(champDateDebut.getText());
-							
+
 							//On crée le stagiaire
 							Stagiaire newStagiaire = new Stagiaire(nomStagiaire,prenomStagiaire,deptStagiaire,promoStagiaire,dateEntreeStagiaire);
-							
+
 							System.out.println(newStagiaire.getNom()+"\n"+
-												newStagiaire.getPrenom()+"\n"+
-													newStagiaire.getCodeDepartement()+"\n"+
-														newStagiaire.getPromo()+"\n"+
-															newStagiaire.getDateEntree());
-							
-							Label succesAjout = new Label("Créé avec succès");
+									newStagiaire.getPrenom()+"\n"+
+									newStagiaire.getCodeDepartement()+"\n"+
+									newStagiaire.getPromo()+"\n"+
+									newStagiaire.getDateEntree());
+
+							Label succesAjout = new Label("Créé avec succès.\nVous pouvez fermer cette fenêtre.");
 							gridAjout.add(succesAjout, 3, 7);
+
 
 						}
 					});
-					
-					
-					
+
+
+
 				}
 			});
-			
-			
+			modifierBtn.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent arg0) {
+					// Création d'un Stage et d'une Grid
+					Stage modifStage = new Stage();
+					GridPane gridModif = new GridPane();
+					gridModif.setAlignment(Pos.TOP_CENTER);
+					gridModif.setHgap(10);
+					gridModif.setVgap(10);
+					gridModif.setPadding(new Insets(25, 25, 25, 25));
+					
+					//Création d'une Scene
+					Scene modifScene = new Scene (gridModif, 900,300,Color.GRAY);
+					modifScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					modifStage.setScene(modifScene);
+					modifStage.setTitle("Modification du stagiaire");
+					modifStage.show();
+					
+				
+				
+				}
+			});
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
