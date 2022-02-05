@@ -67,7 +67,7 @@ public class YSLanceur {
 //		System.out.println(" ***  "+" "+FichierATraiter.lire1BlocDsFichierBinaire(0));
 
 		//on ajoute chaque stagiaire dans le fichier binaire et on cree le lien avec son parent dans la structure ABR
-		for(int i=1; i<20; i++ ) {
+		for(int i=1; i<500; i++ ) {
 			index=FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i));	
 			FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
 			listeObserStag.add(listestagiaires.get(i));
@@ -119,14 +119,14 @@ public class YSLanceur {
 //		
 //		
 //
-//		listeObserStag=FichierATraiter.critereNom(listeObserStag,"wa");
-//		listeObserStag=FichierATraiter.criterePrenom(listeObserStag,"PI");
-//		System.out.println("\n* apres xxx criteres\n");
-//		
-//		for (Stagiaire stagiaire : listeObserStag) {
-//
-//			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom());
-//		}
+		listeObserStag=FichierATraiter.critereNom(listeObserStag,"wa");
+		//listeObserStag=FichierATraiter.criterePrenom(listeObserStag,"PI");
+		System.out.println("\n* apres xxx criteres\n");
+		
+		for (Stagiaire stagiaire : listeObserStag) {
+
+			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom());
+		}
 		
 	}
 }
