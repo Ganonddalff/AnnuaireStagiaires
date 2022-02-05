@@ -644,13 +644,13 @@ public class FichierATraiter {
 
 			// un seul chiffre de taper pour les milliers, le 2eme pour les centaines etc ...
 			// si 4 chiffres sont enregistrés, seuls les stagiaires de cette annee precise seront affichés 
-			if (liste.get(i).getDateEntree() < 10 && liste.get(i).getDateEntree() >= (i * 1000)) {
+			if (dateEntree < 10 && liste.get(i).getDateEntree() >= (dateEntree * 1000)) {
 				listeInterne.add(liste.get(i));
-			} else if (liste.get(i).getDateEntree() < 100 && liste.get(i).getDateEntree() >= (i * 100)) {
+			} else if (dateEntree < 100 && liste.get(i).getDateEntree() >= (dateEntree * 100)) {
 					listeInterne.add(liste.get(i));
-					} else if (liste.get(i).getDateEntree() < 100 && liste.get(i).getDateEntree() >= (i * 10)) {
+					} else if (dateEntree < 1000 && liste.get(i).getDateEntree() >= (dateEntree * 10)) {
 							listeInterne.add(liste.get(i));
-							} else if (liste.get(i).getDateEntree() < 1000 && liste.get(i).getDateEntree() == (i)) {
+							} else if (dateEntree >= 1000 && liste.get(i).getDateEntree() == (dateEntree)) {
 									listeInterne.add(liste.get(i));
 									}
 		}

@@ -73,7 +73,7 @@ public class YSLanceur {
 			listeObserStag.add(listestagiaires.get(i));
 			
 		}
-		
+		 
 //		System.out.println("\n ***** \n");
 //		
 //		for(int i=0; i<20; i++ ) {
@@ -92,13 +92,6 @@ public class YSLanceur {
 
 
 
-
-// test pour supprimer un feuille		
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));
-//		FichierATraiter.supprimerStagiaire(15,16);
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));	
 		
 //test pour supprimer un stagiaire bouchet13 ayant un seul enfantbouamama14 (le parent est augereau4)
 //
