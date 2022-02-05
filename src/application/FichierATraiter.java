@@ -47,6 +47,7 @@ public class FichierATraiter {
 			System.out.println("Pb entrée sortie :" + e.getMessage());
 		}
 	}
+	
 	// *******************************************************************
 	// decompose le fichier txt en objets Stagiaire qui sont stockés dans une list
 	//et  on concatene par des espaces  les chaines string Nom, Prenom, promo  pour avoir respectivement la meme longueur de chaine
@@ -525,7 +526,7 @@ public class FichierATraiter {
 		if (lire1IndexEnfantGauche(index) != -1) {
 			afficherInfixe((lire1IndexEnfantGauche(index)));
 		}
-		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
+		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
 		
 
 		//while(Integer.toString(index).lenght()<5) {}
@@ -533,12 +534,33 @@ public class FichierATraiter {
 		if (lire1IndexEnfantDroit(index) != -1) {
 			afficherInfixe((lire1IndexEnfantDroit(index)));
 		}	
-
-
-
 	}
 	
+	//***********************************************************************
+	// pour lire les stagiaires (par ordre alphabetique) du fichier binaire et les ecrire dans une liste observable
+ 	public static void ecrireStagiaireFBDsListObs(int index,ObservableList<Stagiaire> listestagiaires) {
+ 		if (listestagiaires == null) {
+ 			listestagiaires= FXCollections.observableArrayList();
+ 		}
+ 		
+		if (lire1IndexEnfantDoublon(index) != -1) {
+			ecrireStagiaireFBDsListObs(lire1IndexEnfantDoublon(index),listestagiaires);
+		}	
+		if (lire1IndexEnfantGauche(index) != -1) {
+			ecrireStagiaireFBDsListObs(lire1IndexEnfantGauche(index),listestagiaires);
+		}
+		
+		
+//		System.out.println(" Fucking "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);		 
+
+		Stagiaire stagiaire = new Stagiaire(lire1BlocDsFB(index).getNom(), lire1BlocDsFB(index).getPrenom(), lire1BlocDsFB(index).getCodeDepartement(), lire1BlocDsFB(index).getPromo(), lire1BlocDsFB(index).getDateEntree());
+		listestagiaires.add(stagiaire);	
 	
+		if (lire1IndexEnfantDroit(index) != -1) {
+			ecrireStagiaireFBDsListObs(lire1IndexEnfantDroit(index),listestagiaires);
+		}	
+	
+	}
 	
 	
 	//******************************************************
@@ -592,8 +614,7 @@ public class FichierATraiter {
 		}
 	}
 	
-	
-	
+
 	
 	// recherche par prenom 
 	public static ObservableList<Stagiaire> criterePrenom(ObservableList<Stagiaire> liste, String prenom) {
@@ -641,18 +662,26 @@ public class FichierATraiter {
 		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
 
 		for (int i=0; i<liste.size();i++) {
-
-			// un seul chiffre de taper pour les milliers, le 2eme pour les centaines etc ...
-			// si 4 chiffres sont enregistrés, seuls les stagiaires de cette annee precise seront affichés 
-			if (dateEntree < 10 && liste.get(i).getDateEntree() >= (dateEntree * 1000)) {
-				listeInterne.add(liste.get(i));
-			} else if (dateEntree < 100 && liste.get(i).getDateEntree() >= (dateEntree * 100)) {
+			System.out.println("TEST BOUCLE");
+			if (dateEntree >= 1000 && liste.get(i).getDateEntree() == (dateEntree)) {
+			
 					listeInterne.add(liste.get(i));
-					} else if (dateEntree < 1000 && liste.get(i).getDateEntree() >= (dateEntree * 10)) {
-							listeInterne.add(liste.get(i));
-							} else if (dateEntree >= 1000 && liste.get(i).getDateEntree() == (dateEntree)) {
-									listeInterne.add(liste.get(i));
-									}
+					}
+			if (dateEntree >= 100 && dateEntree < 1000 && liste.get(i).getDateEntree() >= (dateEntree * 10)) {
+				System.out.println(" 3 chiffres soit "+dateEntree*10 );
+					listeInterne.add(liste.get(i));
+			}
+			if (dateEntree >= 10 && dateEntree < 100 && liste.get(i).getDateEntree() >= (dateEntree * 100)) {
+				listeInterne.add(liste.get(i));
+				System.out.println(" 2 chiffres soit "+dateEntree*100 );
+				}
+			
+			if (dateEntree < 10 && liste.get(i).getDateEntree() >= (dateEntree * 1000)) {
+			listeInterne.add(liste.get(i));
+			System.out.println(" 1 seul chiffre soit "+dateEntree*1000 );
+			}
+			
+
 		}
 		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
 		if (listeInterne.size() == 0) {
@@ -660,6 +689,29 @@ public class FichierATraiter {
 		}else {
 		return listeInterne;
 		}
+	}
+	
+	
+	public static ObservableList<Stagiaire> multiCriteres(ObservableList<Stagiaire> liste,String nom, String prenom, String codeDepartement, String promo, int dateEntree) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+		
+		if (nom != "-1") {
+			listeInterne=critereNom(liste,nom);
+		}
+		if (prenom != "-1") {
+			listeInterne=criterePrenom(liste,prenom);
+		}	
+		if (codeDepartement != "-1") {
+			//listeInterne=criterePrenom(liste,prenom);
+		}	
+		if (promo != "-1") {
+			listeInterne=criterePrenom(liste,promo);
+		}		
+		
+		if (dateEntree != -1) {
+			listeInterne=critereDateEntree(liste,dateEntree);
+		}		
+		return listeInterne;
 	}
 	
      //       FIN DU PROGRAMME
