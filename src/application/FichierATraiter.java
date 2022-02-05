@@ -1,5 +1,26 @@
 package application;
 
+
+
+import javafx.application.Application;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -28,6 +49,8 @@ public class FichierATraiter {
 	}
 	// *******************************************************************
 	// decompose le fichier txt en objets Stagiaire qui sont stockés dans une list
+	//et  on concatene par des espaces  les chaines string Nom, Prenom, promo  pour avoir respectivement la meme longueur de chaine
+	// 25   25  15 caracteres
 	public List<Stagiaire> fabriqueChaine() {
 		Stagiaire stagiaire;
 		String nom;
@@ -164,31 +187,31 @@ public class FichierATraiter {
 	// bloc dans la console java
 	// en fonction de l'index du bloc
 
-	public static String lire1BlocDsFichierBinaire(int index) {
-		String lecture = "";
-		try {
-			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin", "rw");
-
-			raf.seek(index * 150);
-
-			for (int i = 0; i < 67; i++) {
-				lecture += raf.readChar();
-			}
-
-			for (int i = 0; i < 4; i++) {
-				lecture += String.valueOf(raf.readInt());
-			}
-			// System.out.println(lecture +" "+raf.length());
-
-			raf.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lecture;
-
-	}// lire
+//	public static String lire1BlocDsFichierBinaire(int index) {
+//		String lecture = "";
+//		try {
+//			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin", "rw");
+//
+//			raf.seek(index * 150);
+//
+//			for (int i = 0; i < 67; i++) {
+//				lecture += raf.readChar();
+//			}
+//
+//			for (int i = 0; i < 4; i++) {
+//				lecture += String.valueOf(raf.readInt());
+//			}
+//			// System.out.println(lecture +" "+raf.length());
+//
+//			raf.close();
+//
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return lecture;
+//
+//	}// lire
 	
 	// *******************************************************************
 	// methode pour lire le contenu du fichier binaire et le transformer en objet
@@ -345,7 +368,7 @@ public class FichierATraiter {
 
 		// on teste si on doit partir sur la gauche
 
-		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) > 0) {
+		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) > 0) {
 
 			if (lire1IndexEnfantGauche(indexCurrent) == -1) {// Est ce que la place à gauche est libre ?
 				// si oui on change l' indicateur indexGauche
@@ -359,7 +382,7 @@ public class FichierATraiter {
 		// sinon je fais l'appel récursif
 
 		// on teste si on doit partir sur la droite
-		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) < 0) {
+		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) < 0) {
 			// Est ce que la place à droite est libre ?
 			if (lire1IndexEnfantDroit(indexCurrent) == -1) {
 				ecrireIndexEnfantDroitDsParent(indexCurrent, indexEnfant);
@@ -369,7 +392,7 @@ public class FichierATraiter {
 		}
 
 		// on teste si on doit partir sur vers les doublons
-		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) == 0) {
+		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) == 0) {
 			// Est ce que la place coté doublon est libre ?
 			if (lire1IndexEnfantDoublon(indexCurrent) == -1) {
 				// si oui on change l' indicateur indexDoublon
@@ -381,6 +404,11 @@ public class FichierATraiter {
 		}
 
 	}
+	
+
+	
+	
+	
 	// *******************************************************************
 	//methode pour trouver l'index d'un bloc stagiaire que l'on cherche a supprimer
 	public static void supprimer( int indexCurrent, Stagiaire stagiaire,int indexParent) {
@@ -491,17 +519,23 @@ public class FichierATraiter {
 	//********************************************************************
 	// pour lire dans l'ordre alphabetique  les stagiaires
 	public static void afficherInfixe(int index) {
+		if (lire1IndexEnfantDoublon(index) != -1) {
+			afficherInfixe((lire1IndexEnfantDoublon(index)));
+		}	
 		if (lire1IndexEnfantGauche(index) != -1) {
 			afficherInfixe((lire1IndexEnfantGauche(index)));
 		}
+		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
+		
+
 		//while(Integer.toString(index).lenght()<5) {}
-		System.out.println(lire1BlocDsFB(index).getNom()+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
+
 		if (lire1IndexEnfantDroit(index) != -1) {
 			afficherInfixe((lire1IndexEnfantDroit(index)));
 		}	
-		if (lire1IndexEnfantDoublon(index) != -1) {
-			afficherInfixe((lire1IndexEnfantDoublon(index)));
-		}
+
+
+
 	}
 	
 	
@@ -512,16 +546,121 @@ public class FichierATraiter {
 	//si le nom n'est pas modifié il suffit de remplacer les attributs de stagiaire en conservant le meme index et les memes IndexEnfant
 	//si le nom est modifié il faut supprimer le stagiaire present dans le fichier et l'ajouter comme une nouvelle entrée
 	public static void majStagiaire(Stagiaire stagiaire, int indexStagiaire) {
-	
+		int index=0;
+		
 		//on teste si le nom du stagiaire a changé
+		// le nom n'a pas changé donc on modifie directement dans le bloc stagiaire référencé par l'indexStagiaire
 		if (stagiaire.getNom().compareTo(lire1BlocDsFB(indexStagiaire).getNom()) == 0) {
+			lire1BlocDsFB(indexStagiaire).setPrenom(stagiaire.getPrenom());
+			lire1BlocDsFB(indexStagiaire).setPromo(stagiaire.getPromo());
+			lire1BlocDsFB(indexStagiaire).setCodeDepartement(stagiaire.getCodeDepartement());			
+			lire1BlocDsFB(indexStagiaire).setDateEntree(stagiaire.getDateEntree());
 			
 			
+		//le nom a changé donc	1 supprimer le stagiaire (que l'on souhaite modifier) de la structure de l'arbre
+		// 	ajouter le stagiaire modifié comme un  nouveau stagiaire 
 		}else {
+			supprimer(0,stagiaire,0);
+			index=FichierATraiter.ecrire1BlocDsFichierBinaire(stagiaire);	
+			FichierATraiter.rechercheParentDsAB(0,stagiaire,index);
 			
 		}
 	}
+	//*******************************************************
+	//methodes criteresXXX
+	// renvoie le tableau de Stagiaires  mis en argument en ne conservant que les objets correspondant au critere de selection (2nd arg) 
+	// en 1er arguments le tableau complet des stagiaires et en 2nd soit un  string pour le nom,  prenom, codeDepartement  
+	//-ces String peuvent contenir une chaine incomplete- soit un int dateEntree
 	
+	// recherche par nom 
+	public static ObservableList<Stagiaire> critereNom(ObservableList<Stagiaire> liste, String nom) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+
+		for (int i=0; i<liste.size();i++) {
+
+			// toUpperCase() pour prendre en compte la chaine
+			if (liste.get(i).getNom().startsWith(nom.toUpperCase())) {
+			listeInterne.add(liste.get(i));
+			
+			}
+		}
+		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
+		if (listeInterne.size() == 0) {
+		return liste;	
+		}else {
+		return listeInterne;
+		}
+	}
+	
+	
+	
+	
+	// recherche par prenom 
+	public static ObservableList<Stagiaire> criterePrenom(ObservableList<Stagiaire> liste, String prenom) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+
+		for (int i=0; i<liste.size();i++) {
+
+			// toUpperCase() pour prendre en compte la chaine
+			if (liste.get(i).getPrenom().startsWith((prenom.substring(0,1).toUpperCase())+prenom.substring(1,prenom.length()).toLowerCase())) {
+			listeInterne.add(liste.get(i));
+			
+			}
+		}
+		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
+		if (listeInterne.size() == 0) {
+		return liste;	
+		}else {
+		return listeInterne;
+		}
+	}
+	
+	
+	// recherche par promo 
+	public static ObservableList<Stagiaire> criterePromo(ObservableList<Stagiaire> liste, String promo) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+
+		for (int i=0; i<liste.size();i++) {
+
+			// toUpperCase() pour prendre en compte la chaine
+			if (liste.get(i).getPromo().startsWith(promo.toUpperCase())) {
+			listeInterne.add(liste.get(i));
+			
+			}
+		}
+		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
+		if (listeInterne.size() == 0) {
+		return liste;	
+		}else {
+		return listeInterne;
+		}
+	}
+	
+	// recherche par dateEntree 
+	public static ObservableList<Stagiaire> critereDateEntree(ObservableList<Stagiaire> liste, int dateEntree) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+
+		for (int i=0; i<liste.size();i++) {
+
+			// un seul chiffre de taper pour les milliers, le 2eme pour les centaines etc ...
+			// si 4 chiffres sont enregistrés, seuls les stagiaires de cette annee precise seront affichés 
+			if (liste.get(i).getDateEntree() < 10 && liste.get(i).getDateEntree() >= (i * 1000)) {
+				listeInterne.add(liste.get(i));
+			} else if (liste.get(i).getDateEntree() < 100 && liste.get(i).getDateEntree() >= (i * 100)) {
+					listeInterne.add(liste.get(i));
+					} else if (liste.get(i).getDateEntree() < 100 && liste.get(i).getDateEntree() >= (i * 10)) {
+							listeInterne.add(liste.get(i));
+							} else if (liste.get(i).getDateEntree() < 1000 && liste.get(i).getDateEntree() == (i)) {
+									listeInterne.add(liste.get(i));
+									}
+		}
+		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
+		if (listeInterne.size() == 0) {
+		return liste;	
+		}else {
+		return listeInterne;
+		}
+	}
 	
      //       FIN DU PROGRAMME
 	//**************************************************	
