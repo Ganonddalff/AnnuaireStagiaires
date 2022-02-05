@@ -3,11 +3,14 @@ package application;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Observable;
 import java.util.Vector;
-
+import java.io.File;
 //import javax.swing.JSpinner.ListEditor;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -24,8 +27,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
-
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -38,7 +44,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import application.YSLanceur;
+
 
 public class Main extends Application {
 
@@ -131,6 +137,89 @@ public class Main extends Application {
 
 			//Lancement de primaryStage
 			primaryStage.show();
+
+			//Action appuyer sur afficher pour afficher la liste
+			afficherBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+
+					//On créer un stage, un GridPane et une Scene
+					//Sur lesquels on viendra poser la TableView
+					Stage afficherStage = new Stage();
+					StackPane stackAfficher= new StackPane();
+					stackAfficher.setAlignment(Pos.TOP_CENTER);
+					//					stackAfficher.setHgap(10);
+					//					stackAfficher.setVgap(10);
+					stackAfficher.setPadding(new Insets(25, 25, 25, 25));
+					Scene sceneAfficher = new Scene(stackAfficher,900,900);
+					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					afficherStage.setScene(sceneAfficher);
+					afficherStage.setTitle("Liste des stagiaires");
+					afficherStage.show();
+
+
+					//Le titre de la liste situé en haut
+					Text titreListe = new Text("Liste des stagiaires");
+					titreListe.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+					//					stackAfficher.add(titreListe, 0, 0);
+
+					/*** LES CHOSES SERIEUSES : AFFICHER
+					 * CETTE FICHUE 
+					 * LISTE
+					 */
+					//Création de l'objet tableStagiaire
+					TableView<Stagiaire> tableStagiaire = new TableView<Stagiaire>();
+
+					//Création des colonnes du tableau
+					//Colonne Nom
+					TableColumn<Stagiaire, String> colonneNom = new TableColumn<Stagiaire, String>("Nom") ;
+					//Colonne Prénom
+					TableColumn<Stagiaire, String> colonnePrenom = new TableColumn<Stagiaire, String>("Prénom");
+					//Colonne Département
+					TableColumn<Stagiaire, String> colonneDept = new TableColumn<Stagiaire, String>("Département");
+					//Colonne Promo
+					TableColumn<Stagiaire, String> colonnePromo = new TableColumn<Stagiaire, String>("Promotion");
+					//Colonne Année 
+					TableColumn<Stagiaire, String> colonneAnnee = new TableColumn<Stagiaire, String>("Année");
+
+					//Ajouter les colonnes à la table
+
+					tableStagiaire.getColumns().addAll(colonneNom,colonnePrenom,colonneDept,colonnePromo,colonneAnnee);
+
+					//Donner leurs valeurs aux colonnes 
+					colonneNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+					colonnePrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+					colonneDept.setCellValueFactory(new PropertyValueFactory<>("codeDepartement"));
+					colonnePromo.setCellValueFactory(new PropertyValueFactory<>("promo"));
+					colonneAnnee.setCellValueFactory(new PropertyValueFactory<>("dateEntree"));
+
+
+					//Trier par ordre alphabétiqueDépartement
+					colonneNom.setSortType(SortType.ASCENDING);
+					colonnePrenom.setSortable(false);
+
+					ObservableList<Stagiaire> listeStagiaires = FXCollections.observableArrayList();
+					
+					//for (i=0)
+					FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaires);
+
+					tableStagiaire.setItems(listeStagiaires);
+					System.out.println(listeStagiaires);
+
+
+
+
+
+
+					//Ajouter la dite table à l'écran : 
+
+					stackAfficher.getChildren().add(tableStagiaire);
+
+				}
+			});
+
 
 			//Action appuyer sur ajouter ouvre une nouvelle fenêtre
 
@@ -318,37 +407,42 @@ public class Main extends Application {
 					modifStage.setTitle("Modification du stagiaire");
 					modifStage.show();
 
-
+					//éléments visuels de la fenêtre
+					//titre du formulaire
 					Text titreFenetre = new Text("Rechercher un stagiaire");
 					gridModif.add(titreFenetre, 0, 0);
 					titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+					//champ de recherche
 					Label rechercheNom = new Label("Nom : ");
 					gridModif.add(rechercheNom, 0, 1);
 					TextField champNom = new TextField();
 					gridModif.add(champNom, 1, 1);
-
+					//bouton lancer la recherche
 					Button lancerRecherche = new Button("rechercher");
 					gridModif.add(lancerRecherche, 2, 1);
-
+					//evenement
 					lancerRecherche.setOnAction(new EventHandler<ActionEvent>() {
 
 						@Override
+						/*début de l'action*/					
+
 						public void handle(ActionEvent arg0) {
 							FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
 							List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
 							listestagiaires=fichier.fabriqueChaine();	
 
-								System.out.println(champNom.getText());
-								System.out.println(listestagiaires.get(0).getNom());
+							System.out.println(champNom.getText());
+							System.out.println(listestagiaires.get(0).getNom());
 
 
 							/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
 							for(int i=0; i<listestagiaires.size();i++ ) {
-							//	if(champNom.getText().compareTo(listestagiaires.get(2).getNom())==0) {
+								//	if(champNom.getText().compareTo(listestagiaires.get(2).getNom())==0) {
 								if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
 									System.out.println("ok");
 									return;
-									
+
 								}
 								else {
 									System.out.println("pas ok");
