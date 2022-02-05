@@ -8,6 +8,8 @@ import java.util.Vector;
 //import javax.swing.JSpinner.ListEditor;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -336,8 +338,19 @@ public class Main extends Application {
 						public void handle(ActionEvent arg0) {
 							FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
 							List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
-							listestagiaires=fichier.fabriqueChaine();	
-
+							listestagiaires=fichier.fabriqueChaine();
+							
+							
+//							int index;
+//							ObservableList<Stagiaire> listeObserStag = FXCollections.observableArrayList(); 
+//							
+//							
+//							//creation de la racine
+//							index = FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
+//							listeObserStag.add(listestagiaires.get(0));	
+							
+							
+							
 								System.out.println(champNom.getText());
 								System.out.println(listestagiaires.get(0).getNom());
 

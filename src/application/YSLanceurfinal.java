@@ -46,24 +46,25 @@ public class YSLanceurfinal {
 	//*********************		
 
 
-
-	FichierATraiter.ecrireStagiaireFBDsListObs(0,listeObserStag);
+ 
+ 
+		FichierATraiter.ecrireStagiaireFBDsListObs(0,listeObserStag);
 	
-//		System.out.println(" taille de la liste observable "+listeObserStag.size()); 
-//	for (int i =0; i<3418;i++) {
-//		System.out.println(FichierATraiter.lire1BlocDsFB(i).getNom());
-//	
-//	}	
+
 		
 
-//		//  gestion multicriteres                       nom prenom departement promotion date debut(entier)
-//		listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"la","-1","-1","-1",-1);
+		//  gestion multicriteres                       nom prenom departement promotion dateEntree(entier)
+		listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"-1","-1","-1","-1",27);
 		
 	
 		for (Stagiaire stagiaire : listeObserStag) {
-
+			
 			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom()+ " "+stagiaire.getDateEntree() );
 		}
-		System.out.println(" taille de la liste observable "+listeObserStag.size()); 	
+		System.out.println(" taille de la liste observable "+listeObserStag.size());
+		
+		
+//		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);		
+		
 	}
 }

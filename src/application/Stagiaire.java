@@ -47,14 +47,20 @@ public class Stagiaire extends Personne implements Comparable<Stagiaire>{
 	}
 
 	
-
+	//Surcharge de compareTo pour comparer l'objet stagiaire avec l'ensemble de ses attributs
 	@Override
 	public int compareTo(Stagiaire stagiaire) {
 		int i = this.nom.compareTo(stagiaire.getNom());
 		if ( i == 0) {
-			i = this.prenom.compareTo(stagiaire.getPrenom());
+			 i = this.prenom.compareTo(stagiaire.getPrenom());
 			if (i == 0) {
-				i = this.promo.compareTo(stagiaire.getPromo());
+				i = this.codeDepartement.compareTo(stagiaire.getCodeDepartement());
+				if (i == 0) {
+					i = this.promo.compareTo(stagiaire.getPromo());
+					if(i == 0) {
+						i = this.dateEntree - stagiaire.getDateEntree();
+					}
+				}
 			}
 		}
 		

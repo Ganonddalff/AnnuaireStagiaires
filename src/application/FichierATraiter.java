@@ -418,12 +418,12 @@ public class FichierATraiter {
 		
 		System.out.println(lire1BlocDsFB(indexCurrent).getNom() +" "+stagiaire.getNom());
 		
-		if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) == 0) {
+		if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) == 0) {
 			System.out.println(" la méthode supprimer() a trouvé le stagiaire "+lire1BlocDsFB(indexCurrent).getNom() +" à suppr son indexParent " +indexParent +"son IndexCurrent "+indexCurrent);
 			supprimerStagiaire(indexParent, indexCurrent);
 
 
-		}else if (lire1BlocDsFB(indexCurrent).getNom().compareTo(stagiaire.getNom()) > 0) {
+		}else if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) > 0) {
 
 			supprimer(lire1IndexEnfantGauche(indexCurrent),stagiaire,indexCurrent);
 			
@@ -499,8 +499,6 @@ public class FichierATraiter {
 			// je dois recuperer les indexEnfantDroit et gauche du stagiaire pour les mettre dans son remplacant
 			ecrireIndexEnfantDroitDsParent(indexRemplacant,lire1IndexEnfantDroit(indexStagiaire));
 			ecrireIndexEnfantGaucheDsParent(indexRemplacant,lire1IndexEnfantGauche(indexStagiaire));
-
-
 			
 		}
 	}
