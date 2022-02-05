@@ -1,9 +1,13 @@
 package application;
 
 
+
 import java.io.File;
 import java.util.List;
 import java.util.Vector;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class YSLanceur {
 
@@ -16,7 +20,7 @@ public class YSLanceur {
 		FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
 		List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
 		listestagiaires=fichier.fabriqueChaine();
-		
+		ObservableList<Stagiaire> listeObserStag = FXCollections.observableArrayList(); 
 
 		File file =new File("src/application/data/fichier.bin");
 		file.delete();
@@ -59,15 +63,17 @@ public class YSLanceur {
 		// on cree la racine du fichier
 
 		index = FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
-		System.out.println(" ***  "+" "+FichierATraiter.lire1BlocDsFichierBinaire(0));
+		listeObserStag.add(listestagiaires.get(0));
+//		System.out.println(" ***  "+" "+FichierATraiter.lire1BlocDsFichierBinaire(0));
 
 		//on ajoute chaque stagiaire dans le fichier binaire et on cree le lien avec son parent dans la structure ABR
-		for(int i=1; i<20; i++ ) {
+		for(int i=1; i<500; i++ ) {
 			index=FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i));	
 			FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
+			listeObserStag.add(listestagiaires.get(i));
 			
 		}
-		
+		 
 //		System.out.println("\n ***** \n");
 //		
 //		for(int i=0; i<20; i++ ) {
@@ -86,13 +92,6 @@ public class YSLanceur {
 
 
 
-
-// test pour supprimer un feuille		
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));
-//		FichierATraiter.supprimerStagiaire(15,16);
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(15));
-//		System.out.println(FichierATraiter.lire1BlocDsFichierBinaire(16));	
 		
 //test pour supprimer un stagiaire bouchet13 ayant un seul enfantbouamama14 (le parent est augereau4)
 //
@@ -108,9 +107,26 @@ public class YSLanceur {
 //		System.out.println(FichierATraiter.dernierDescendant(2));
 		
 		FichierATraiter.afficherInfixe(0);
+//		FichierATraiter.supprimer(0,listestagiaires.get(3),0);
+//		FichierATraiter.afficherInfixe(0);
+//		
+//		System.out.println("\n***\n");
+//		
+//		for (Stagiaire stagiaire : listeObserStag) {
+//
+//			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom());
+//		}
+//		
+//		
+//
+		listeObserStag=FichierATraiter.critereNom(listeObserStag,"wa");
+		//listeObserStag=FichierATraiter.criterePrenom(listeObserStag,"PI");
+		System.out.println("\n* apres xxx criteres\n");
 		
+		for (Stagiaire stagiaire : listeObserStag) {
+
+			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom());
+		}
 		
-		FichierATraiter.supprimer(0,listestagiaires.get(3),0);
-		FichierATraiter.afficherInfixe(0);
 	}
 }
