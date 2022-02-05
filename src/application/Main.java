@@ -1,6 +1,9 @@
 package application;
 
+
 import java.io.InputStream;
+import java.util.List;
+import java.util.Vector;
 
 //import javax.swing.JSpinner.ListEditor;
 
@@ -35,6 +38,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import application.YSLanceur;
 
 public class Main extends Application {
 
@@ -101,30 +105,30 @@ public class Main extends Application {
 			Button ajouterBtn = new Button("Ajouter un stagiaire");
 			ajouterBtn.setLayoutX(700);
 			ajouterBtn.setLayoutY(450);
-	
+
 
 			//création du bouton afficher
 			Button afficherBtn = new Button("Afficher la liste");
 			afficherBtn.setLayoutX(300);
 			afficherBtn.setLayoutY(450);
-	
-			
+
+
 			//Création du bouton modifier un élément de la liste
 			Button modifierBtn = new Button("Modifier un stagiaire");
 			modifierBtn.setLayoutX(1100);
 			modifierBtn.setLayoutY(450);
-	
+
 			//grouper les boutons
 			Group groupeStagiaire = new Group();
 			groupeStagiaire.getChildren().addAll(ajouterBtn,afficherBtn,modifierBtn);
-			
+
 			//ajouter le groupe à root
-			
+
 			root.getChildren().add(groupeStagiaire);
-			
+
 			//Pas de couleur pour menubar
 			myMenu.setStyle("-fx-background-color: null;");
-		
+
 			//Lancement de primaryStage
 			primaryStage.show();
 
@@ -147,7 +151,7 @@ public class Main extends Application {
 					gridAjout.setPadding(new Insets(25, 25, 25, 25));
 
 					//On crée une scène, plus petite que la 1ère
-					Scene sceneAjout = new Scene(gridAjout,900,300,Color.GRAY);
+					Scene sceneAjout = new Scene(gridAjout,900,380,Color.GRAY);
 					sceneAjout.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 					//On lie la scène à la fenêtre
 					secondaryStage.setScene(sceneAjout);
@@ -217,36 +221,78 @@ public class Main extends Application {
 					hbsaveAjout.getChildren().add(saveAjout);
 					gridAjout.add(saveAjout, 3, 6);
 
+
 					saveAjout.setOnAction(new EventHandler<ActionEvent>() {
 
 						@Override
 						public void handle(ActionEvent arg0) {
-							// TODO Auto-generated method stub
 
 							/*****	ECRIRE ICI L'APPEL DE LA FONCTION AJOUTER UN STAGIAIRE *****/
 
-							// On récupère les différents attributs avec getText()
-							String nomStagiaire = (String) champNom.getText();
-							String prenomStagiaire = (String) champPrenom.getText();
-							String deptStagiaire = champDept.getText();
-							String promoStagiaire = champPromo.getText();
-							//	Il faut convertir de string vers int avec parseInt
-							int dateEntreeStagiaire =  Integer.parseInt(champDateDebut.getText());
+							//Pour ne pas créer d'objet avec attribut vide
+							if(champNom.getText().equals("")) {
+								Label champVide = new Label ("Tous les champs ne sont pas remplis");
+								gridAjout.add(champVide, 0, 7);
+								return;
+							}
+							if(champPrenom.getText().equals("")){
+								Label champVide = new Label ("Tous les champs ne sont pas remplis");
+								gridAjout.add(champVide, 0, 7);
+								return;
+							}
+							if(champDept.getText().equals("")) {
+								Label champVide = new Label ("Tous les champs ne sont pas remplis");
+								gridAjout.add(champVide, 0, 7);
+								return;
+							}
+							if(champPromo.getText().equals("")) {
+								Label champVide = new Label ("Tous les champs ne sont pas remplis");
+								gridAjout.add(champVide, 0, 7);
+								return;
+							}
+							if(champDept.getText().equals("")) {
+								Label champVide = new Label ("Tous les champs ne sont pas remplis");
+								gridAjout.add(champVide, 0, 7);
+								return;
+							}
+							else {
+								// On récupère les différents attributs avec getText()
+								String nomStagiaire = champNom.getText();
+								String prenomStagiaire =  champPrenom.getText();
+								String deptStagiaire = champDept.getText();
+								String promoStagiaire = champPromo.getText();
+								//	Il faut convertir de string vers int avec parseInt
+								int dateEntreeStagiaire =  Integer.parseInt(champDateDebut.getText());
 
-							//On crée le stagiaire
-							Stagiaire newStagiaire = new Stagiaire(nomStagiaire,prenomStagiaire,deptStagiaire,promoStagiaire,dateEntreeStagiaire);
+								//On crée le stagiaire
+								Stagiaire newStagiaire = new Stagiaire(nomStagiaire,prenomStagiaire,deptStagiaire,promoStagiaire,dateEntreeStagiaire);
 
-							System.out.println(newStagiaire.getNom()+"\n"+
-									newStagiaire.getPrenom()+"\n"+
-									newStagiaire.getCodeDepartement()+"\n"+
-									newStagiaire.getPromo()+"\n"+
-									newStagiaire.getDateEntree());
+								System.out.println(newStagiaire.getNom()+"\n"+
+										newStagiaire.getPrenom()+"\n"+
+										newStagiaire.getCodeDepartement()+"\n"+
+										newStagiaire.getPromo()+"\n"+
+										newStagiaire.getDateEntree());
 
-							Label succesAjout = new Label("Créé avec succès.\nVous pouvez fermer cette fenêtre.");
-							gridAjout.add(succesAjout, 3, 7);
+								Label succesAjout = new Label("Créé avec succès.\nVous pouvez fermer cette fenêtre.");
+								gridAjout.add(succesAjout, 3, 7);
+
+								Button fermerFenetre = new Button("Fermer");
+								HBox hbFermerFenetre = new HBox(10);
+								hbFermerFenetre.getChildren().add(fermerFenetre);
+								gridAjout.add(fermerFenetre,3,9);
+
+								fermerFenetre.setOnAction(new EventHandler<ActionEvent>() {
+
+									@Override
+									public void handle(ActionEvent arg0) {
+										// TODO Auto-generated method stub
+
+										secondaryStage.close();
+									}
+								});
 
 
-						}
+							}}
 					});
 
 
@@ -254,7 +300,7 @@ public class Main extends Application {
 				}
 			});
 			modifierBtn.setOnAction(new EventHandler<ActionEvent>() {
-				
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					// Création d'un Stage et d'une Grid
@@ -264,16 +310,56 @@ public class Main extends Application {
 					gridModif.setHgap(10);
 					gridModif.setVgap(10);
 					gridModif.setPadding(new Insets(25, 25, 25, 25));
-					
+
 					//Création d'une Scene
 					Scene modifScene = new Scene (gridModif, 900,300,Color.GRAY);
 					modifScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 					modifStage.setScene(modifScene);
 					modifStage.setTitle("Modification du stagiaire");
 					modifStage.show();
-					
-				
-				
+
+
+					Text titreFenetre = new Text("Rechercher un stagiaire");
+					gridModif.add(titreFenetre, 0, 0);
+					titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+					Label rechercheNom = new Label("Nom : ");
+					gridModif.add(rechercheNom, 0, 1);
+					TextField champNom = new TextField();
+					gridModif.add(champNom, 1, 1);
+
+					Button lancerRecherche = new Button("rechercher");
+					gridModif.add(lancerRecherche, 2, 1);
+
+					lancerRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
+							List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
+							listestagiaires=fichier.fabriqueChaine();	
+
+								System.out.println(champNom.getText());
+								System.out.println(listestagiaires.get(0).getNom());
+
+
+							/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
+							for(int i=0; i<listestagiaires.size();i++ ) {
+							//	if(champNom.getText().compareTo(listestagiaires.get(2).getNom())==0) {
+								if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
+									System.out.println("ok");
+									return;
+									
+								}
+								else {
+									System.out.println("pas ok");
+								}
+								System.out.println(listestagiaires.get(i).getNom());
+							}
+						}});
+
+
+
+
 				}
 			});
 
