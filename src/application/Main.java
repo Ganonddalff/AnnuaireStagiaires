@@ -202,8 +202,8 @@ public class Main extends Application {
 					colonnePrenom.setSortable(false);
 
 					ObservableList<Stagiaire> listeStagiaires = FXCollections.observableArrayList();
-					
-					//for (i=0)
+
+
 					FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaires);
 
 					tableStagiaire.setItems(listeStagiaires);
@@ -429,26 +429,95 @@ public class Main extends Application {
 						/*début de l'action*/					
 
 						public void handle(ActionEvent arg0) {
-							FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");
-							List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
-							listestagiaires=fichier.fabriqueChaine();	
+							ObservableList<Stagiaire> listestagiaires = FXCollections.observableArrayList();
 
-							System.out.println(champNom.getText());
-							System.out.println(listestagiaires.get(0).getNom());
+
+							FichierATraiter.ecrireStagiaireFBDsListObs(0,listestagiaires);
+
+
+							System.out.println(listestagiaires);
+
+
 
 
 							/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
 							for(int i=0; i<listestagiaires.size();i++ ) {
-								//	if(champNom.getText().compareTo(listestagiaires.get(2).getNom())==0) {
+
 								if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
 									System.out.println("ok");
-									return;
 
+									//Affichage du résultat de la recherche
+									//Création des éléments à afficher
+									Label stagiaireTrouve = new Label("Résultat : ");
+									//Type de donnée
+									Label nomLabel = new Label("Nom : ");
+									Label prenomLabel = new Label("Prénom : ");
+									Label deptLabel = new Label("Département : ");
+									Label promoLabel = new Label("Promotion : ");
+									Label anneeLabel = new Label("Année : ");
+
+
+
+									//Champ de modification
+									TextField nom = new TextField(listestagiaires.get(i).getNom());
+									TextField prenom= new TextField(listestagiaires.get(i).getPrenom());
+									TextField dept = new TextField(listestagiaires.get(i).getCodeDepartement());		
+									TextField promo = new TextField(listestagiaires.get(i).getPromo());
+									TextField annee = new TextField(""+listestagiaires.get(i).getDateEntree());
+
+									//Positonnement des éléments à afficher
+									gridModif.add(nomLabel,0,3);
+									gridModif.add(prenomLabel, 0, 4);
+									gridModif.add(deptLabel, 0, 5);
+									gridModif.add(promoLabel, 0, 6);
+									gridModif.add(anneeLabel, 0, 7);
+									gridModif.add(stagiaireTrouve, 1, 7);
+									gridModif.add(nom,1,3);
+									gridModif.add(prenom, 1, 4);
+									gridModif.add(dept, 1, 5);
+									gridModif.add(promo, 1, 6);
+									gridModif.add(annee, 1, 7);
+									//A ce stage, nous avons une fenêtre de recherche
+									//avec un résultat qui apparait dans un 
+									// TextField() ==> donc éditable.
+
+									// Nous allons ajouter un bouton "enregistrer" 
+									// et un EventHandler
+
+									Button enregistrer = new Button("Enregistrer");
+									gridModif.add(enregistrer, 2, 7);
+
+									enregistrer.setOnAction(new EventHandler<ActionEvent>() {
+
+										@Override
+										public void handle(ActionEvent arg0) {
+											// TODO Auto-generated method stub
+
+											//On crée  l'objet stagiaire get(i) 
+											// et aux valeurs des TextField
+											// qu'on écrit à l'endroit de la résultat de la recherche
+											for(int i=0; i<listestagiaires.size();i++ ) {
+
+												if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
+													
+													FichierATraiter.majStagiaire(new Stagiaire(nom.getText(),prenom.getText(),dept.getText(),promo.getText(),Integer.parseInt(annee.getText())), i);
+													
+													System.out.println();
+												}}
+
+
+										}
+									});
+
+
+
+
+									return;
 								}
 								else {
 									System.out.println("pas ok");
 								}
-								System.out.println(listestagiaires.get(i).getNom());
+								//		System.out.println(listestagiaires.get(i).getNom());
 							}
 						}});
 
