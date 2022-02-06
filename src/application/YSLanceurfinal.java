@@ -40,31 +40,38 @@ public class YSLanceurfinal {
 //			FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
 //			listeObserStag.add(listestagiaires.get(i));	
 //		}
-		
 
 	
 	//*********************		
 
 
  
- 
-		FichierATraiter.ecrireStagiaireFBDsListObs(0,listeObserStag);
+//		FichierATraiter.ecrireStagiaireFBDsListObs(0,listeObserStag);
+		
+
+
+//		//  gestion multicriteres                       nom prenom departement promotion dateEntree(entier)
+//	listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"-1","-1","91","-1",-1);
+//		
+		
+//		Stagiaire s1 =  new Stagiaire("ZZZzz","Top","75","CDA15",2022);
+//		index=FichierATraiter.ecrire1BlocDsFichierBinaire(s1);	
+//		FichierATraiter.rechercheParentDsAB(0, s1, index);
+		
+//		for (Stagiaire stagiaire : listeObserStag) {
+//			
+//			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom()+ " dep "+stagiaire.getCodeDepartement()+" promo "+stagiaire.getPromo() +" date "+stagiaire.getDateEntree() );
+//		}
+
+//		
 	
 
 		
-
-		//  gestion multicriteres                       nom prenom departement promotion dateEntree(entier)
-		listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"-1","-1","-1","-1",27);
 		
-	
-		for (Stagiaire stagiaire : listeObserStag) {
-			
-			System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom()+ " "+stagiaire.getDateEntree() );
-		}
-		System.out.println(" taille de la liste observable "+listeObserStag.size());
-		
-		
-//		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);		
-		
+//		for (int i = 00; i < 20; i++) {
+//		System.out.println(FichierATraiter.lire1BlocDsFB(i).getNom()+" "+ FichierATraiter.lire1BlocDsFB(i).getPrenom()+" "+ FichierATraiter.lire1BlocDsFB(i).getDateEntree()+" "+ FichierATraiter.lire1BlocDsFB(i).getPromo()+" "+ FichierATraiter.lire1BlocDsFB(i).getPrenom()+" "+" G "+ FichierATraiter.lire1IndexEnfantGauche(i)+" D "+FichierATraiter.lire1IndexEnfantDroit(i)+" DO "+FichierATraiter.lire1IndexEnfantDoublon(i)+" index "+ i);		
+//		}
+		FichierATraiter.afficherInfixe(0);
+	//	System.out.println(" taille de la liste observable "+listeObserStag.size());	
 	}
 }

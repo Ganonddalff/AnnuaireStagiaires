@@ -73,6 +73,8 @@ public class FichierATraiter {
 				nom = bfr.readLine();
 
 				if (nom != null) {
+					// les noms sont tous mis en majuscule
+					nom=nom.toUpperCase();
 					// boucle pour completer le nom du stagiaire pour qu'il fasse 25 caracteres
 					if (nom.length() > longMaxNom) {
 						longMaxNom = nom.length();
@@ -107,12 +109,13 @@ public class FichierATraiter {
 					}
 
 					try {
+
 						dateEntree = Integer.parseInt(bfr.readLine());
 					} catch (NumberFormatException e) {
 						dateEntree = 0;
 						System.out.println(" y a un pb sur dateEntree de " + nom + " " + prenom);
 					}
-
+//					System.out.println("fabriqueChaine()  nom "+ nom+" date "+dateEntree);
 					compteur++;
 
 					// certains stagiaires n'ont pas de "numero" codeDepartement dans le fichier
@@ -120,10 +123,10 @@ public class FichierATraiter {
 					// ce qui decalait les informations dans le fichier binaire. J'ai testé
 					// diffrentes conditions dans le if
 					// pour recuperer les absences de departement (seule la derniere fonctionne).
-					// le nouveau numero attribué est YS à revoir.. pk pas "00" ?
+					// le nouveau numero attribué est ** à revoir.. pk pas "00" ?
 					if (codeDepartement == null || codeDepartement == "" || codeDepartement == "\r"
 							|| codeDepartement == " " || codeDepartement == "\n" || codeDepartement.length() < 2) {
-						codeDepartement = "YS";
+						codeDepartement = "**";
 					}
 
 					stagiaire = new Stagiaire(nom, prenom, codeDepartement, promo, dateEntree);
@@ -159,11 +162,41 @@ public class FichierATraiter {
 			RandomAccessFile raf = new RandomAccessFile("src/application/data/fichier.bin", "rw");
 			// determiner la longueur du fichierpour positionner le curseur juste apres le
 			// dernier pour y ajouter le nouveau
-			// bloc
+			// bloc			
 			longueurFichier = (int) raf.length();
 			raf.seek(longueurFichier);
-			raf.writeChars(
-					stagiaire.getNom() + stagiaire.getPrenom() + stagiaire.getCodeDepartement() + stagiaire.getPromo());
+			
+			// controle si chaque attribut a le bon nbre de caracteres sinon il complete par des espaces
+			String nom=stagiaire.getNom();
+			while (nom.length() < 25) {
+				nom += " ";
+			}
+			stagiaire.setNom(nom);
+			
+			//****
+			String prenom=stagiaire.getPrenom();
+			while (prenom.length() < 25) {
+				prenom += " ";
+			}
+			stagiaire.setPrenom(prenom);
+			
+			//****
+			// on ajoute ici une asterisque si il manque un digit
+			String codeDepartement=stagiaire.getCodeDepartement();
+			while (codeDepartement.length() < 2) {
+				codeDepartement += "*";
+			}
+			stagiaire.setCodeDepartement(codeDepartement);
+			
+			//****
+			String promo=stagiaire.getPromo();
+			while (promo.length() < 15) {
+				promo += " ";
+			}
+			stagiaire.setPromo(promo);
+			System.out.println("ecrire1BlocDsFichierBinaire() "+stagiaire.getNom()+" "+stagiaire.getPrenom()+" DEp " +stagiaire.getCodeDepartement()+ " Prom "+promo+" date "+stagiaire.getDateEntree() );
+			//****
+			raf.writeChars(stagiaire.getNom() + stagiaire.getPrenom() + stagiaire.getCodeDepartement() + stagiaire.getPromo());
 			raf.writeInt(stagiaire.getDateEntree());
 			raf.writeInt(-1);// IndexEnfantGauche
 			raf.writeInt(-1);// IndexEnfantDroit
@@ -172,7 +205,6 @@ public class FichierATraiter {
 			raf.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// longueur du fichier en octets divisé par le nbre d'octets d'un bloc pour
@@ -243,9 +275,10 @@ public class FichierATraiter {
 				promo += raf.readChar();
 			}
 
-			for (int i = 0; i < 2; i++) {
-				dateEntree += raf.readInt();
-			}
+			dateEntree=raf.readInt();
+		//	for (int i = 0; i < 2; i++) {
+		//		dateEntree += raf.readInt();
+		//	}
 
 			// System.out.println(lecture +" "+raf.length());
 
@@ -321,7 +354,7 @@ public class FichierATraiter {
 			raf.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return IndexEnfantGauche;
@@ -418,11 +451,16 @@ public class FichierATraiter {
 		
 		System.out.println(lire1BlocDsFB(indexCurrent).getNom() +" "+stagiaire.getNom());
 		
-		if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) == 0) {
+			// on compare l'objet stagiaire avec l objet du noeud  via une surchage de la méthode compareTo					
+	 if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) == 0) {
 			System.out.println(" la méthode supprimer() a trouvé le stagiaire "+lire1BlocDsFB(indexCurrent).getNom() +" à suppr son indexParent " +indexParent +"son IndexCurrent "+indexCurrent);
 			supprimerStagiaire(indexParent, indexCurrent);
-
-
+			// on teste si il est doublon cad si les  noms et prenoms sont identiques  
+	 }else if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) == 0) {
+			// && (lire1IndexEnfantDoublon(indexCurrent) != -1)) inutile  
+			supprimer(lire1IndexEnfantDoublon(indexCurrent),stagiaire,indexCurrent);
+		 
+		 
 		}else if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) > 0) {
 
 			supprimer(lire1IndexEnfantGauche(indexCurrent),stagiaire,indexCurrent);
@@ -444,10 +482,29 @@ public class FichierATraiter {
 	public static void supprimerStagiaire(int indexParent, int indexStagiaire) {
 	
 		System.out.println(" supprimerStagiaire() : stagiaire "+ lire1BlocDsFB(indexStagiaire).getNom() +"a  IndexEnfantGauche: "+ lire1IndexEnfantGauche(indexStagiaire) +" droit " +lire1IndexEnfantDroit(indexStagiaire));
-		
+	
+		//cas du stagiaire a supprime qui a un doublon dans son indexEnfant
+		if(lire1IndexEnfantDoublon(indexStagiaire) != -1) {
+			// remplacer le stagiaire par son doublon dans IndexEnfant du parent
+			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
+				ecrireIndexEnfantGaucheDsParent(indexParent, lire1IndexEnfantDoublon(indexStagiaire));			
+			}
+			if (lire1IndexEnfantDroit(indexParent) == indexStagiaire) {
+				ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantDoublon(indexStagiaire));			
+			}
+			
+			
+			//mettre l IndexEnfantDroit et gauche du stagiaire dans celui du doublon
+			
+
+			ecrireIndexEnfantGaucheDsParent(lire1IndexEnfantDoublon(indexStagiaire), lire1IndexEnfantGauche(indexStagiaire)); 
+			ecrireIndexEnfantDroitDsParent(lire1IndexEnfantDoublon(indexStagiaire), lire1IndexEnfantDroit(indexStagiaire)); 			
+			
+			
+			
 		// si le stagiaire n'a pas d'enfant, on modifie l'indexEnfantXXX (correspondant
 		// au stagiaire) de son parent a -1
-		if (lire1IndexEnfantGauche(indexStagiaire) == -1 && lire1IndexEnfantDroit(indexStagiaire) == -1) {
+		} else if (lire1IndexEnfantGauche(indexStagiaire) == -1 && lire1IndexEnfantDroit(indexStagiaire) == -1) {
 			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
 				ecrireIndexEnfantGaucheDsParent(indexParent, -1);
 
@@ -463,7 +520,7 @@ public class FichierATraiter {
 			ecrireIndexEnfantGaucheDsParent(indexParent, lire1IndexEnfantGauche(indexStagiaire));
 			}else {
 				ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantGauche(indexStagiaire));
-				System.out.println("!! ");
+
 			}
 		} else if (lire1IndexEnfantGauche(indexStagiaire) == -1) {
 			// pour savoir si le stagiaire a supprimer se trouve dans l indexEnfantGauche ou droite  du parent
@@ -472,7 +529,7 @@ public class FichierATraiter {
 			ecrireIndexEnfantGaucheDsParent(indexParent, lire1IndexEnfantDroit(indexStagiaire));
 			}else {
 				ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantDroit(indexStagiaire));
-				System.out.println("?? ");
+
 				}
 			
 		//	ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantDroit(indexStagiaire));
@@ -524,7 +581,7 @@ public class FichierATraiter {
 		if (lire1IndexEnfantGauche(index) != -1) {
 			afficherInfixe((lire1IndexEnfantGauche(index)));
 		}
-		System.out.println(lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
+		System.out.println("methode afficherInfixe() "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
 		
 
 		//while(Integer.toString(index).lenght()<5) {}
@@ -633,7 +690,26 @@ public class FichierATraiter {
 		return listeInterne;
 		}
 	}
-	
+
+	// recherche par codeDepartement 
+	public static ObservableList<Stagiaire> critereCodeDepartement (ObservableList<Stagiaire> liste, String  codeDepartement ) {
+		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+
+		for (int i=0; i<liste.size();i++) {
+
+			// toUpperCase() pour prendre en compte la chaine
+			if (liste.get(i).getCodeDepartement().startsWith((codeDepartement.toUpperCase()))) {
+			listeInterne.add(liste.get(i));
+			
+			}
+		}
+		//si le critere ne selectionne aucun objet alors la methode retourne la liste en argument (liste complete)
+		if (listeInterne.size() == 0) {
+		return liste;	
+		}else {
+		return listeInterne;
+		}
+	}	
 	
 	// recherche par promo 
 	public static ObservableList<Stagiaire> criterePromo(ObservableList<Stagiaire> liste, String promo) {
@@ -674,7 +750,7 @@ public class FichierATraiter {
 				System.out.println(" 2 chiffres soit "+dateEntree*100 );
 				}
 			
-			if (dateEntree < 10 && liste.get(i).getDateEntree() >= (dateEntree * 1000)) {
+			if (dateEntree < 10 && dateEntree >= 0 && liste.get(i).getDateEntree() >= (dateEntree * 1000)) {
 			listeInterne.add(liste.get(i));
 			System.out.println(" 1 seul chiffre soit "+dateEntree*1000 );
 			}
@@ -689,25 +765,26 @@ public class FichierATraiter {
 		}
 	}
 	
-	
+	// methode qui recuperent les criteresXXX (monocritere)
 	public static ObservableList<Stagiaire> multiCriteres(ObservableList<Stagiaire> liste,String nom, String prenom, String codeDepartement, String promo, int dateEntree) {
 		ObservableList<Stagiaire> listeInterne= FXCollections.observableArrayList();
+		listeInterne=liste;
 		
 		if (nom != "-1") {
-			listeInterne=critereNom(liste,nom);
+			listeInterne=critereNom(listeInterne,nom);
 		}
 		if (prenom != "-1") {
-			listeInterne=criterePrenom(liste,prenom);
+			listeInterne=criterePrenom(listeInterne,prenom);
 		}	
 		if (codeDepartement != "-1") {
-			//listeInterne=criterePrenom(liste,prenom);
+			listeInterne=critereCodeDepartement(listeInterne,codeDepartement);
 		}	
 		if (promo != "-1") {
-			listeInterne=criterePrenom(liste,promo);
+			listeInterne=criterePrenom(listeInterne,promo);
 		}		
 		
 		if (dateEntree != -1) {
-			listeInterne=critereDateEntree(liste,dateEntree);
+			listeInterne=critereDateEntree(listeInterne,dateEntree);
 		}		
 		return listeInterne;
 	}
