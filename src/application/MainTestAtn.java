@@ -41,6 +41,7 @@ public class MainTestAtn {
 		 * 
 		 */
 
+		/*
 		ObservableList<Stagiaire> maListObservable = FXCollections.observableArrayList();
 			
 		Stagiaire stg10 = new Stagiaire ("One","pren","dep","prom",20010);
@@ -150,10 +151,13 @@ public class MainTestAtn {
 			
 			
 		ExportPDF.exportListePDF(maListObservable);
+		*/
 		
+		
+		 AidePDF.monPDFgo ();
 		}
 		
 
 	}
-}
+
 	
