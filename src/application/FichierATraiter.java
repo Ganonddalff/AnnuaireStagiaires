@@ -396,7 +396,7 @@ public class FichierATraiter {
 	}// lire
 	
 	// *******************************************************************
-	// methode pour trouver le parent du stagaire afin de placer son index et donc
+	// methode pour trouver le parent du stagiaire afin de placer son index et donc
 	// de contruire l'arbre
 	public static void rechercheParentDsAB(int indexCurrent, Stagiaire stagiaire, int indexEnfant) {
 
@@ -455,10 +455,13 @@ public class FichierATraiter {
 	 if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) == 0) {
 			System.out.println(" la méthode supprimer() a trouvé le stagiaire "+lire1BlocDsFB(indexCurrent).getNom() +" à suppr son indexParent " +indexParent +"son IndexCurrent "+indexCurrent);
 			supprimerStagiaire(indexParent, indexCurrent);
+			
+			
 			// on teste si il est doublon cad si les  noms et prenoms sont identiques  
 	 }else if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) == 0) {
 			// && (lire1IndexEnfantDoublon(indexCurrent) != -1)) inutile  
-			supprimer(lire1IndexEnfantDoublon(indexCurrent),stagiaire,indexCurrent);
+		 System.out.println("méthode supprimer() a trouve une chaine de doublon Indexstagiaire" +lire1IndexEnfantDoublon(indexCurrent)+ " "+indexCurrent);
+		supprimer(lire1IndexEnfantDoublon(indexCurrent),stagiaire,indexCurrent);
 		 
 		 
 		}else if (lire1BlocDsFB(indexCurrent).compareTo(stagiaire) > 0) {
@@ -481,7 +484,7 @@ public class FichierATraiter {
 	
 	public static void supprimerStagiaire(int indexParent, int indexStagiaire) {
 	
-		System.out.println(" supprimerStagiaire() : stagiaire "+ lire1BlocDsFB(indexStagiaire).getNom() +"a  IndexEnfantGauche: "+ lire1IndexEnfantGauche(indexStagiaire) +" droit " +lire1IndexEnfantDroit(indexStagiaire));
+		System.out.println(" supprimerStagiaire() : stagiaire "+ lire1BlocDsFB(indexStagiaire).getNom() +" index "+indexStagiaire+" a  IndexEnfantGauche: "+ lire1IndexEnfantGauche(indexStagiaire) +" droit " +lire1IndexEnfantDroit(indexStagiaire));
 	
 		//cas du stagiaire a supprime qui a un doublon dans son indexEnfant
 		if(lire1IndexEnfantDoublon(indexStagiaire) != -1) {
@@ -581,7 +584,7 @@ public class FichierATraiter {
 		if (lire1IndexEnfantGauche(index) != -1) {
 			afficherInfixe((lire1IndexEnfantGauche(index)));
 		}
-		System.out.println("methode afficherInfixe() "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
+		System.out.println("methode afficherInfixe() "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getCodeDepartement()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getDateEntree()+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
 		
 
 		//while(Integer.toString(index).lenght()<5) {}
@@ -620,28 +623,15 @@ public class FichierATraiter {
 	
 	//******************************************************
 	// methode pour MAJ/modifier
-	//si le nom n'est pas modifié il suffit de remplacer les attributs de stagiaire en conservant le meme index et les memes IndexEnfant
-	//si le nom est modifié il faut supprimer le stagiaire present dans le fichier et l'ajouter comme une nouvelle entrée
-	public static void majStagiaire(Stagiaire stagiaire, int indexStagiaire) {
+	
+	public static void majStagiaire(Stagiaire stagiaireSuppr, Stagiaire stagiaireAjout) {
 		int index=0;
 		
-		//on teste si le nom du stagiaire a changé
-		// le nom n'a pas changé donc on modifie directement dans le bloc stagiaire référencé par l'indexStagiaire
-		if (stagiaire.getNom().compareTo(lire1BlocDsFB(indexStagiaire).getNom()) == 0) {
-			lire1BlocDsFB(indexStagiaire).setPrenom(stagiaire.getPrenom());
-			lire1BlocDsFB(indexStagiaire).setPromo(stagiaire.getPromo());
-			lire1BlocDsFB(indexStagiaire).setCodeDepartement(stagiaire.getCodeDepartement());			
-			lire1BlocDsFB(indexStagiaire).setDateEntree(stagiaire.getDateEntree());
+			supprimer(0,stagiaireSuppr,0);
+			index=FichierATraiter.ecrire1BlocDsFichierBinaire(stagiaireAjout);	
+			FichierATraiter.rechercheParentDsAB(0,stagiaireAjout,index);
 			
-			
-		//le nom a changé donc	1 supprimer le stagiaire (que l'on souhaite modifier) de la structure de l'arbre
-		// 	ajouter le stagiaire modifié comme un  nouveau stagiaire 
-		}else {
-			supprimer(0,stagiaire,0);
-			index=FichierATraiter.ecrire1BlocDsFichierBinaire(stagiaire);	
-			FichierATraiter.rechercheParentDsAB(0,stagiaire,index);
-			
-		}
+
 	}
 	//*******************************************************
 	//methodes criteresXXX
@@ -788,6 +778,39 @@ public class FichierATraiter {
 		}		
 		return listeInterne;
 	}
+	
+	public static void convertirBonFormat(Stagiaire stagiaire) {
+		String nom=stagiaire.getNom();
+		while (nom.length() < 25) {
+			nom += " ";
+		}
+		stagiaire.setNom(nom);
+		
+		//****
+		String prenom=stagiaire.getPrenom();
+		while (prenom.length() < 25) {
+			prenom += " ";
+		}
+		stagiaire.setPrenom(prenom);
+		
+		//****
+		// on ajoute ici une asterisque si il manque un digit
+		String codeDepartement=stagiaire.getCodeDepartement();
+		while (codeDepartement.length() < 2) {
+			codeDepartement += "*";
+		}
+		stagiaire.setCodeDepartement(codeDepartement);
+		
+		//****
+		String promo=stagiaire.getPromo();
+		while (promo.length() < 15) {
+			promo += " ";
+		}
+		stagiaire.setPromo(promo);
+		System.out.println("convertirBonFormat() "+stagiaire.getNom()+" "+stagiaire.getPrenom()+" DEp " +stagiaire.getCodeDepartement()+ " Prom "+promo+" date "+stagiaire.getDateEntree() );
+	}
+	
+	
 	
      //       FIN DU PROGRAMME
 	//**************************************************	

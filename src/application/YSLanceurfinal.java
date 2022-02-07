@@ -11,6 +11,9 @@ import javafx.collections.ObservableList;
 
 public class YSLanceurfinal {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 	int index =0;
@@ -54,9 +57,8 @@ public class YSLanceurfinal {
 //	listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"-1","-1","91","-1",-1);
 //		
 		
-//		Stagiaire s1 =  new Stagiaire("ZZZzz","Top","75","CDA15",2022);
-//		index=FichierATraiter.ecrire1BlocDsFichierBinaire(s1);	
-//		FichierATraiter.rechercheParentDsAB(0, s1, index);
+
+
 		
 //		for (Stagiaire stagiaire : listeObserStag) {
 //			
@@ -71,7 +73,34 @@ public class YSLanceurfinal {
 //		for (int i = 00; i < 20; i++) {
 //		System.out.println(FichierATraiter.lire1BlocDsFB(i).getNom()+" "+ FichierATraiter.lire1BlocDsFB(i).getPrenom()+" "+ FichierATraiter.lire1BlocDsFB(i).getDateEntree()+" "+ FichierATraiter.lire1BlocDsFB(i).getPromo()+" "+ FichierATraiter.lire1BlocDsFB(i).getPrenom()+" "+" G "+ FichierATraiter.lire1IndexEnfantGauche(i)+" D "+FichierATraiter.lire1IndexEnfantDroit(i)+" DO "+FichierATraiter.lire1IndexEnfantDoublon(i)+" index "+ i);		
 //		}
+	
+	
+		Stagiaire s1 =  new Stagiaire("ZZZzz","Top","75","CDA15",2022);
+		FichierATraiter.convertirBonFormat(s1);
+		Stagiaire s2 =  new Stagiaire("YAHIAOUI","Marwan","92","ATOD 15 CP",2012);	
+		
+		Stagiaire s3 =  new Stagiaire("ZBERRO","Maxime","78","AI 96",2015);	
+		FichierATraiter.convertirBonFormat(s3);
+		
+		Stagiaire s4 =  new Stagiaire("ZAMOUN","Mourad","93","ATOD 7",2009);	
+		FichierATraiter.convertirBonFormat(s4);
+	
+		
+//		index=FichierATraiter.ecrire1BlocDsFichierBinaire(s1);	
+//		FichierATraiter.rechercheParentDsAB(0, s1, index);	
+		
+
+		
+		
+//		System.out.println("apres convertirBonFormat() "+s1.getNom()+" "+s1.getPrenom()+" DEp " +s1.getCodeDepartement()+ " Prom "+s1.getPromo()+" date "+s1.getDateEntree() );		
+//		FichierATraiter.supprimer(0, s1, 0);
+//		System.out.println((lire1BlocDsFB(1365).getNom()+lire1BlocDsFB(1365).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())));
 		FichierATraiter.afficherInfixe(0);
-	//	System.out.println(" taille de la liste observable "+listeObserStag.size());	
+	//	System.out.println(" taille de la liste observable "+listeObserStag.size());
+		
+
 	}
+	
+	
+	
 }
