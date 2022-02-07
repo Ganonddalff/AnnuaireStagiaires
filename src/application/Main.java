@@ -3,6 +3,7 @@ package application;
 
 
 import java.io.InputStream;
+
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
@@ -13,6 +14,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -29,6 +31,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableView;
@@ -41,6 +44,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -50,12 +54,14 @@ public class Main extends Application {
 
 	public void start(Stage primaryStage) throws Exception {
 
+		Boolean clic = false;
+
 		try {
 			//création de root
 			GridPane root = new GridPane();
 
 			//création d'une scène 
-			Scene scene = new Scene(root,850,900);
+			Scene scene = new Scene(root,900,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 
@@ -115,25 +121,35 @@ public class Main extends Application {
 			//Création du bouton modifier un élément de la liste
 			Button modifierBtn = new Button("Modifier un stagiaire");
 			modifierBtn.setPrefSize(150, 20);
-			
+
 			//Création du bouton exportPDF
 			Button exportPDF = new Button("Exporter en pdf");
 			exportPDF.setPrefSize(150, 20);
-			
+
 
 			//Le titre de la liste situé en haut
 			Text titreListe = new Text("Liste des stagiaires");
 			titreListe.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
-			
+
 			//Un champ de recherche
 			Label rechercheLabel = new Label(" Rechercher selon ");
 			TextField rechecherChamp = new TextField();
-			
-			
+
+			Button supprimerBtn = new Button("Supprimer");
+			supprimerBtn.setPrefSize(150, 20);
+
+
 			// un bouton rechercher
 			Button rechercherBtn = new Button("Lancer la recherche");
 			rechercherBtn.setPrefSize(150, 20);
-			
+			// Décaler le bouton du bord de l'écran ??
+			//	rechercherBtn.setPadding(new Insets(0,0,40,20));
+
+			//un bouton recherche multicritère
+			Button rechercheAvanceeBtn = new Button("Recherche avancée");
+			rechercheAvanceeBtn.setPrefSize(150, 20);
+
+
 			//Liste des criteres
 			String criteres[]= {"Nom","Prénom","Département","Promotion","Année"};
 
@@ -175,32 +191,32 @@ public class Main extends Application {
 			//		colonneNom.setSortType(SortType.ASCENDING);
 			//			colonnePrenom.setSortable(false);
 
-			ObservableList<Stagiaire> listeStagiaires = FXCollections.observableArrayList();
+			ObservableList<Stagiaire> listeStagiaire = FXCollections.observableArrayList();
 
 
-			FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaires);
+			FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaire);
 
-			tableStagiaire.setItems(listeStagiaires);
-			System.out.println(listeStagiaires);
+			tableStagiaire.setItems(listeStagiaire);
+			System.out.println(listeStagiaire);
 
 			tableStagiaire.setPrefHeight(800);
 			tableStagiaire.setPrefWidth(582);
 
 
 
-			
+
 			//VBox pour les boutons sur la droite
 			VBox boutons = new VBox();
-			
-			boutons.getChildren().addAll(ajouterBtn,modifierBtn,exportPDF);
+
+			boutons.getChildren().addAll(rechercheAvanceeBtn,ajouterBtn,modifierBtn,supprimerBtn,exportPDF);
 			boutons.setSpacing(50);
 			boutons.setAlignment(Pos.CENTER_RIGHT);
-		//	boutons.setPadding(new Insets(15,0,40,10));
-			
-			
-			
+			//	boutons.setPadding(new Insets(15,0,40,10));
+
+
+
 			//Positionnement
-			
+
 			root.add(titreListe,1,0);
 			root.add(rechercheLabel, 0, 0);
 			root.add(choixCritere, 0, 1);
@@ -217,55 +233,71 @@ public class Main extends Application {
 
 			//Lancement de primaryStage
 			primaryStage.show();
-			
-			
+
+			//Evenement clic à la souris dans la table
+
+			tableStagiaire.setOnMouseClicked(new EventHandler<Event>() {
+
+
+
+				@Override
+				public void handle(Event clic) {
+					// TODO Auto-generated method stub
+
+					Boolean clicBool = true;
+					//					TableCell<Stagiaire,Stagiaire> stagiaireClic = (TableCell<Stagiaire, Stagiaire>) arg0.getSource();
+
+				}
+
+			});
+
 			//Action "lancer la recherche"
 			rechercherBtn.setOnAction(new EventHandler<ActionEvent>() {
-				
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					
-					
-					
-					if(choixCritere.getSelectionModel().getSelectedItem()=="Nom"){
-						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
-						tableStagiaire.refresh();
-						return;
-						
-					}
-					
-					if(choixCritere.getSelectionModel().getSelectedItem()=="Prénom") {
-						tableStagiaire.setItems(FichierATraiter.criterePrenom(listeStagiaires, rechecherChamp.getText()));
-						tableStagiaire.refresh();
-						return;
-					}
-					
-					if(choixCritere.getSelectionModel().getSelectedItem()=="Département") {
-						tableStagiaire.setItems(FichierATraiter.critereCodeDepartement(listeStagiaires, rechecherChamp.getText()));
-						tableStagiaire.refresh();
-						return;
-					}
-					
-					if(choixCritere.getSelectionModel().getSelectedItem()=="Promotion") {
-						tableStagiaire.setItems(FichierATraiter.criterePromo(listeStagiaires, rechecherChamp.getText()));
-						tableStagiaire.refresh();
-						return;
-					}
-					
-					if(choixCritere.getSelectionModel().getSelectedItem()=="Année") {
-						tableStagiaire.setItems(FichierATraiter.critereDateEntree(listeStagiaires, Integer.parseInt(rechecherChamp.getText())));
-						tableStagiaire.refresh();
-						return;
-					}
-					
-					else {
-						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
-						tableStagiaire.refresh();
-					}
-					
 
-					
+
+
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Nom"){
+						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaire, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+
+					}
+
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Prénom") {
+						tableStagiaire.setItems(FichierATraiter.criterePrenom(listeStagiaire, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Département") {
+						tableStagiaire.setItems(FichierATraiter.critereCodeDepartement(listeStagiaire, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Promotion") {
+						tableStagiaire.setItems(FichierATraiter.criterePromo(listeStagiaire, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Année") {
+						tableStagiaire.setItems(FichierATraiter.critereDateEntree(listeStagiaire, Integer.parseInt(rechecherChamp.getText())));
+						tableStagiaire.refresh();
+						return;
+					}
+
+					else {
+						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaire, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+					}
+
+
+
 				}
 			});
 
@@ -419,10 +451,10 @@ public class Main extends Application {
 								HBox hbFermerFenetre = new HBox(10);
 								hbFermerFenetre.getChildren().add(fermerFenetre);
 								gridAjout.add(fermerFenetre,3,9);
-								
+
 								//On ajoute le nouveau stagiaire à la liste
-								listeStagiaires.add(newStagiaire);
-								
+								listeStagiaire.add(newStagiaire);
+
 								tableStagiaire.refresh();
 
 								fermerFenetre.setOnAction(new EventHandler<ActionEvent>() {
@@ -430,7 +462,7 @@ public class Main extends Application {
 									@Override
 									public void handle(ActionEvent arg0) {
 										// TODO Auto-generated method stub
-									
+
 										secondaryStage.close();
 									}
 								});
@@ -447,144 +479,350 @@ public class Main extends Application {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					// Création d'un Stage et d'une Grid
-					Stage modifStage = new Stage();
-					GridPane gridModif = new GridPane();
-					gridModif.setAlignment(Pos.TOP_CENTER);
-					gridModif.setHgap(10);
-					gridModif.setVgap(10);
-					gridModif.setPadding(new Insets(25, 25, 25, 25));
 
-					//Création d'une Scene
-					Scene modifScene = new Scene (gridModif, 900,300,Color.GRAY);
-					modifScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-					modifStage.setScene(modifScene);
-					modifStage.setTitle("Modification du stagiaire");
-					modifStage.show();
+					Stagiaire stagiaireClic = tableStagiaire.getSelectionModel().getSelectedItem();
 
-					//éléments visuels de la fenêtre
-					//titre du formulaire
-					Text titreFenetre = new Text("Rechercher un stagiaire");
-					gridModif.add(titreFenetre, 0, 0);
-					titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+					if(stagiaireClic != null) {
+						Stage modifStage = new Stage();
+						GridPane gridModif = new GridPane();
+						gridModif.setAlignment(Pos.TOP_CENTER);
+						gridModif.setHgap(10);
+						gridModif.setVgap(10);
+						gridModif.setPadding(new Insets(25, 25, 25, 25));
 
-					//champ de recherche
-					Label rechercheNom = new Label("Nom : ");
-					gridModif.add(rechercheNom, 0, 1);
-					TextField champNom = new TextField();
-					gridModif.add(champNom, 1, 1);
-					//bouton lancer la recherche
-					Button lancerRecherche = new Button("rechercher");
-					gridModif.add(lancerRecherche, 2, 1);
-					//evenement
-					lancerRecherche.setOnAction(new EventHandler<ActionEvent>() {
+						//Création d'une Scene
+						Scene modifScene = new Scene (gridModif, 400,300,Color.GRAY);
+						modifScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+						modifStage.setScene(modifScene);
+						modifStage.setTitle("Modification du stagiaire");
+						modifStage.show();
 
-						@Override
-						/*début de l'action*/					
+						//éléments visuels de la fenêtre
+						//titre du formulaire
+						Text titreFenetre = new Text("Modifier");
+						gridModif.add(titreFenetre, 0, 0);
+						titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-						public void handle(ActionEvent arg0) {
-							ObservableList<Stagiaire> listestagiaires = FXCollections.observableArrayList();
+						//						//champ de recherche
+						//						Label rechercheNom = new Label("Nom : ");
+						//						gridModif.add(rechercheNom, 0, 1);
+						//						TextField champNom = new TextField();
+						//						gridModif.add(champNom, 1, 1);
+						//						//bouton lancer la recherche
+						//						Button lancerRecherche = new Button("rechercher");
+						//						gridModif.add(lancerRecherche, 2, 1);
 
-
-							FichierATraiter.ecrireStagiaireFBDsListObs(0,listestagiaires);
-
-
-							System.out.println(listestagiaires);
+						//Type de donnée
+						Label nomLabel = new Label("Nom : ");
+						Label prenomLabel = new Label("Prénom : ");
+						Label deptLabel = new Label("Département : ");
+						Label promoLabel = new Label("Promotion : ");
+						Label anneeLabel = new Label("Année : ");
 
 
 
+						//Champ de modification
+						TextField nom = new TextField(tableStagiaire.getSelectionModel().getSelectedItem().getNom());
+						TextField prenom= new TextField(tableStagiaire.getSelectionModel().getSelectedItem().getPrenom());
+						TextField dept = new TextField(tableStagiaire.getSelectionModel().getSelectedItem().getCodeDepartement());		
+						TextField promo = new TextField(tableStagiaire.getSelectionModel().getSelectedItem().getPromo());
+						TextField annee = new TextField(""+tableStagiaire.getSelectionModel().getSelectedItem().getDateEntree());
+						//Récupérer Stagiaire à supprimer
+						//									String;
+						//									String;
+						//									String;
+						//									String;
+						//									int;
 
-							/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
-							for(int i=0; i<listestagiaires.size();i++ ) {
-
-								if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
-
-									//Affichage du résultat de la recherche
-									//Création des éléments à afficher
-									Label stagiaireTrouve = new Label("Résultat : ");
-									//Type de donnée
-									Label nomLabel = new Label("Nom : ");
-									Label prenomLabel = new Label("Prénom : ");
-									Label deptLabel = new Label("Département : ");
-									Label promoLabel = new Label("Promotion : ");
-									Label anneeLabel = new Label("Année : ");
-
-
-
-									//Champ de modification
-									TextField nom = new TextField(listestagiaires.get(i).getNom());
-									TextField prenom= new TextField(listestagiaires.get(i).getPrenom());
-									TextField dept = new TextField(listestagiaires.get(i).getCodeDepartement());		
-									TextField promo = new TextField(listestagiaires.get(i).getPromo());
-									TextField annee = new TextField(""+listestagiaires.get(i).getDateEntree());
-									//Récupérer Stagiaire à supprimer
-									//									String;
-									//									String;
-									//									String;
-									//									String;
-									//									int;
-
-									//Positonnement des éléments à afficher
-									gridModif.add(nomLabel,0,3);
-									gridModif.add(prenomLabel, 0, 4);
-									gridModif.add(deptLabel, 0, 5);
-									gridModif.add(promoLabel, 0, 6);
-									gridModif.add(anneeLabel, 0, 7);
-									gridModif.add(stagiaireTrouve, 1, 7);
-									gridModif.add(nom,1,3);
-									gridModif.add(prenom, 1, 4);
-									gridModif.add(dept, 1, 5);
-									gridModif.add(promo, 1, 6);
-									gridModif.add(annee, 1, 7);
-									//A ce stage, nous avons une fenêtre de recherche
-									//avec un résultat qui apparait dans un 
-									// TextField() ==> donc éditable.
-
-									// Nous allons ajouter un bouton "enregistrer" 
-									// et un EventHandler
-
-									Button enregistrer = new Button("Enregistrer");
-									gridModif.add(enregistrer, 2, 7);
-
-									enregistrer.setOnAction(new EventHandler<ActionEvent>() {
-
-										@Override
-										public void handle(ActionEvent arg0) {
-											// TODO Auto-generated method stub
-
-											//On crée  l'objet stagiaire get(i) 
-											// et aux valeurs des TextField
-											// qu'on écrit à l'endroit de la résultat de la recherche
-											for(int i=0; i<listestagiaires.size();i++ ) {
-
-												if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
-
-													//	FichierATraiter.majStagiaire(new Stagiaire(nom.getText(),prenom.getText(),dept.getText(),promo.getText(),Integer.parseInt(annee.getText())), i);
-
-													System.out.println();
-												}}
+						//Positonnement des éléments à afficher
+						gridModif.add(nomLabel,0,3);
+						gridModif.add(prenomLabel, 0, 4);
+						gridModif.add(deptLabel, 0, 5);
+						gridModif.add(promoLabel, 0, 6);
+						gridModif.add(anneeLabel, 0, 7);
+						gridModif.add(nom,1,3);
+						gridModif.add(prenom, 1, 4);
+						gridModif.add(dept, 1, 5);
+						gridModif.add(promo, 1, 6);
+						gridModif.add(annee, 1, 7);
 
 
-										}
-									});
+						Stagiaire oldStagiaire = tableStagiaire.getSelectionModel().getSelectedItem();
+						
+						Button enregistrer = new Button("Enregistrer");
+						gridModif.add(enregistrer, 2, 7);
+						
+						enregistrer.setOnAction(new EventHandler<ActionEvent>() {
+						
+							@Override
+							public void handle(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								
+								String newNom = nom.getText();
+								String newPrenom = prenom.getText();
+								String newDpt = dept.getText();
+								String newPromo = promo.getText();
+								int newAnnee = Integer.parseInt(annee.getText());
+								Stagiaire newStagiaire = new Stagiaire(newNom,newPrenom,newDpt,newPromo,newAnnee);
+								FichierATraiter.majStagiaire(oldStagiaire, newStagiaire);
+								listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+								listeStagiaire.remove(oldStagiaire);
+								tableStagiaire.refresh();
+								System.out.println();
+								modifStage.close();
+								rechercherBtn.fireEvent(arg0);
 
-
-
-
-									return;
-								}
-								else {
-									
-								}
-								//		System.out.println(listestagiaires.get(i).getNom());
 							}
-						}});
+						});
+						
 
+
+						return;
+					}
+
+					else {
+						// Création d'un Stage et d'une Grid
+						Stage modifStage = new Stage();
+						GridPane gridModif = new GridPane();
+						gridModif.setAlignment(Pos.TOP_CENTER);
+						gridModif.setHgap(10);
+						gridModif.setVgap(10);
+						gridModif.setPadding(new Insets(25, 25, 25, 25));
+
+						//Création d'une Scene
+						Scene modifScene = new Scene (gridModif, 900,300,Color.GRAY);
+						modifScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+						modifStage.setScene(modifScene);
+						modifStage.setTitle("Modification du stagiaire");
+						modifStage.show();
+
+						//éléments visuels de la fenêtre
+						//titre du formulaire
+						Text titreFenetre = new Text("Rechercher un stagiaire");
+						gridModif.add(titreFenetre, 0, 0);
+						titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+						//champ de recherche
+						Label rechercheNom = new Label("Nom : ");
+						gridModif.add(rechercheNom, 0, 1);
+						TextField champNom = new TextField();
+						gridModif.add(champNom, 1, 1);
+						//bouton lancer la recherche
+						Button lancerRecherche = new Button("rechercher");
+						gridModif.add(lancerRecherche, 2, 1);
+						//evenement
+						lancerRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							/*début de l'action*/					
+
+							public void handle(ActionEvent arg0) {
+								ObservableList<Stagiaire> listeStagiaires = FXCollections.observableArrayList();
+
+
+								FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaires);
+
+
+								System.out.println(listeStagiaires);
+
+
+
+
+								/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
+								for(int i=0; i<listeStagiaires.size();i++ ) {
+
+									if(listeStagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
+
+										//Affichage du résultat de la recherche
+										//Création des éléments à afficher
+										Label stagiaireTrouve = new Label("Résultat : ");
+										//Type de donnée
+										Label nomLabel = new Label("Nom : ");
+										Label prenomLabel = new Label("Prénom : ");
+										Label deptLabel = new Label("Département : ");
+										Label promoLabel = new Label("Promotion : ");
+										Label anneeLabel = new Label("Année : ");
+
+
+
+										//Champ de modification
+										TextField nom = new TextField(listeStagiaire.get(i).getNom());
+										TextField prenom= new TextField(listeStagiaire.get(i).getPrenom());
+										TextField dept = new TextField(listeStagiaire.get(i).getCodeDepartement());		
+										TextField promo = new TextField(listeStagiaire.get(i).getPromo());
+										TextField annee = new TextField(""+listeStagiaire.get(i).getDateEntree());
+										//Récupérer Stagiaire à supprimer
+										//									String;
+										//									String;
+										//									String;
+										//									String;
+										//									int;
+
+										//Positonnement des éléments à afficher
+										gridModif.add(nomLabel,0,3);
+										gridModif.add(prenomLabel, 0, 4);
+										gridModif.add(deptLabel, 0, 5);
+										gridModif.add(promoLabel, 0, 6);
+										gridModif.add(anneeLabel, 0, 7);
+										gridModif.add(stagiaireTrouve, 1, 7);
+										gridModif.add(nom,1,3);
+										gridModif.add(prenom, 1, 4);
+										gridModif.add(dept, 1, 5);
+										gridModif.add(promo, 1, 6);
+										gridModif.add(annee, 1, 7);
+										//A ce stage, nous avons une fenêtre de recherche
+										//avec un résultat qui apparait dans un 
+										// TextField() ==> donc éditable.
+
+										// Nous allons ajouter un bouton "enregistrer" 
+										// et un EventHandler
+
+										Stagiaire oldStagiaire = listeStagiaire.get(i);
+
+										Button enregistrer = new Button("Enregistrer");
+										gridModif.add(enregistrer, 2, 7);
+
+										enregistrer.setOnAction(new EventHandler<ActionEvent>() {
+
+											@Override
+											public void handle(ActionEvent arg0) {
+												// TODO Auto-generated method stub
+
+												//On crée  l'objet stagiaire get(i) 
+												// et aux valeurs des TextField
+												// qu'on écrit à l'endroit de la résultat de la recherche
+
+
+												String newNom = nom.getText();
+												String newPrenom = prenom.getText();
+												String newDpt = dept.getText();
+												String newPromo = promo.getText();
+												int newAnnee = Integer.parseInt(annee.getText());
+												Stagiaire newStagiaire = new Stagiaire(newNom,newPrenom,newDpt,newPromo,newAnnee);
+												FichierATraiter.majStagiaire(oldStagiaire, newStagiaire);
+												listeStagiaire.add(newStagiaire);
+												listeStagiaire.remove(oldStagiaire);
+												tableStagiaire.refresh();
+												System.out.println();
+												rechercherBtn.fireEvent(arg0);
+
+
+
+											}
+										});
+
+
+
+
+										return;
+									}
+									else {
+
+									}
+									//		System.out.println(listestagiaires.get(i).getNom());
+								}
+							}});
+
+
+
+						return;
+					}}
+			});
+			rechercheAvanceeBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
 
 
 
 				}
 			});
+			supprimerBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					Stagiaire stagiaireClic = tableStagiaire.getSelectionModel().getSelectedItem();
+					if(stagiaireClic==null) {
+						System.out.println("T'as pas cliqué");
+						Stage erreurStage = new Stage();
+						StackPane erreurPane = new StackPane();
+						Text erreurTexte = new Text("Erreur !\nVous n'avez pas sélectionné \nla ligne à supprimer.");
+						erreurTexte.setTextAlignment(TextAlignment.CENTER);
+						Scene sceneErreur = new Scene(erreurPane,250,150);
+						erreurStage.show();
+
+						//erreurPane.setAlignment(Pos.CENTER);
+						sceneErreur.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+						erreurStage.setScene(sceneErreur);
+						erreurStage.setTitle("Erreur");
+
+						erreurPane.getChildren().add(erreurTexte);
+
+						return;
+
+					}
+					else {
+						System.out.println("Suppression de : "+tableStagiaire.getSelectionModel().getSelectedIndex());
+						System.out.println(tableStagiaire.getSelectionModel().getSelectedItem().getNom()); 
+
+
+						Stage confirmStage = new Stage();
+						confirmStage.setTitle("Supprimer");
+						GridPane confirmPane = new GridPane();
+						Text confirmTexte = new Text("Supprimer \n"+tableStagiaire.getSelectionModel().getSelectedItem().getNom()+""+tableStagiaire.getSelectionModel().getSelectedItem().getPrenom()+"\n ?");
+						confirmTexte.setTextAlignment(TextAlignment.CENTER);
+						Scene sceneConfirm = new Scene(confirmPane,250,300);
+						confirmStage.setScene(sceneConfirm);
+						confirmStage.show();
+						sceneConfirm.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+
+						Button oui = new Button("oui");
+						Button non = new Button("non");
+						HBox choix = new HBox(oui,non);
+						choix.setPadding(new Insets(10,10,10,10) );
+						choix.setSpacing(20);
+
+						confirmPane.setAlignment(Pos.CENTER);
+						confirmPane.add(confirmTexte, 0, 0);
+						confirmPane.add(choix, 0, 1);
+
+						oui.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								listeStagiaire.remove(tableStagiaire.getSelectionModel().getSelectedIndex());
+								tableStagiaire.refresh();	
+								FichierATraiter.supprimer(0, stagiaireClic, 0);
+								System.out.println("Le stagiaire a bien été effacé");
+								confirmStage.close();
+								rechercherBtn.fireEvent(arg0);
+							}
+						});
+
+						non.setOnAction(new EventHandler<ActionEvent>() {
+							@Override
+							public void handle(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+
+								confirmStage.close();
+								return;
+
+							}
+						});
+
+
+						return;
+
+					}
+
+				}
+			});
+
+
 
 		} catch(Exception e) {
 			e.printStackTrace();
