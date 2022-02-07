@@ -95,15 +95,22 @@ public class YSLanceurfinal {
 //		Stagiaire s7 =  new Stagiaire("ZAMI","Samuel","95","AI 63",2004);	
 //		FichierATraiter.convertirBonFormat(s7);		
 
-	Stagiaire s8 =  new Stagiaire("YOUYOUTTE","Jonathan","78","AI 78",2010);	
-	FichierATraiter.convertirBonFormat(s8);	
+//	Stagiaire s8 =  new Stagiaire("YOUYOUTTE","Jonathan","78","AI 78",2010);	
+//	FichierATraiter.convertirBonFormat(s8);	
+	
+	Stagiaire s9 =  new Stagiaire("ZHANG","GeGe","94","ATOD 26 CP",2015);	
+	FichierATraiter.convertirBonFormat(s9);	
+	
+	Stagiaire s10 =  new Stagiaire("ZHANG","A","0","CDA 25",2023);	
+	FichierATraiter.convertirBonFormat(s10);	
 		
 //		index=FichierATraiter.ecrire1BlocDsFichierBinaire(s1);	
 //		FichierATraiter.rechercheParentDsAB(0, s1, index);	
 		
-		FichierATraiter.supprimer(0, s8, 0);
+//		FichierATraiter.supprimer(0, s8, 0);
 		
-
+//		FichierATraiter.majStagiaire(s9, s10);
+		
 		FichierATraiter.afficherInfixe(0);		
 		
 		

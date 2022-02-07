@@ -400,7 +400,7 @@ public class FichierATraiter {
 	// de contruire l'arbre
 	public static void rechercheParentDsAB(int indexCurrent, Stagiaire stagiaire, int indexEnfant) {
 
-		// on teste si on doit partir sur la gauche
+		// on teste en concatenant  nom + prenom si on doit partir sur la gauche
 
 		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) > 0) {
 
@@ -413,8 +413,6 @@ public class FichierATraiter {
 
 		}
 
-		// sinon je fais l'appel récursif
-
 		// on teste si on doit partir sur la droite
 		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) < 0) {
 			// Est ce que la place à droite est libre ?
@@ -425,7 +423,7 @@ public class FichierATraiter {
 			}
 		}
 
-		// on teste si on doit partir sur vers les doublons
+		// on teste si on doit partir  vers les doublons
 		if ((lire1BlocDsFB(indexCurrent).getNom()+lire1BlocDsFB(indexCurrent).getPrenom()).compareTo((stagiaire.getNom()+stagiaire.getPrenom())) == 0) {
 			// Est ce que la place coté doublon est libre ?
 			if (lire1IndexEnfantDoublon(indexCurrent) == -1) {
@@ -569,16 +567,16 @@ public class FichierATraiter {
 	//********************************************************************
 	// pour lire dans l'ordre alphabetique  les stagiaires
 	public static void afficherInfixe(int index) {
-		if (lire1IndexEnfantDoublon(index) != -1) {
-			afficherInfixe((lire1IndexEnfantDoublon(index)));
-		}	
+
 		if (lire1IndexEnfantGauche(index) != -1) {
 			afficherInfixe((lire1IndexEnfantGauche(index)));
 		}
 		System.out.println("methode afficherInfixe() "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getCodeDepartement()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getDateEntree()+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);
 		
+		if (lire1IndexEnfantDoublon(index) != -1) {
+			afficherInfixe((lire1IndexEnfantDoublon(index)));
+		}	
 
-		//while(Integer.toString(index).lenght()<5) {}
 
 		if (lire1IndexEnfantDroit(index) != -1) {
 			afficherInfixe((lire1IndexEnfantDroit(index)));
@@ -592,23 +590,28 @@ public class FichierATraiter {
  			listestagiaires= FXCollections.observableArrayList();
  		}
  		
-		if (lire1IndexEnfantDoublon(index) != -1) {
-			ecrireStagiaireFBDsListObs(lire1IndexEnfantDoublon(index),listestagiaires);
-		}	
+	
 		if (lire1IndexEnfantGauche(index) != -1) {
 			ecrireStagiaireFBDsListObs(lire1IndexEnfantGauche(index),listestagiaires);
 		}
-		
-		
-//		System.out.println(" Fucking "+lire1BlocDsFB(index).getNom()+" "+ lire1BlocDsFB(index).getPrenom()+" "+ lire1BlocDsFB(index).getDateEntree()+" "+ lire1BlocDsFB(index).getPromo()+" "+ lire1BlocDsFB(index).getPrenom()+" "+" G "+ lire1IndexEnfantGauche(index)+" D "+lire1IndexEnfantDroit(index)+" DO "+lire1IndexEnfantDoublon(index)+" index "+ index);		 
-
 		Stagiaire stagiaire = new Stagiaire(lire1BlocDsFB(index).getNom(), lire1BlocDsFB(index).getPrenom(), lire1BlocDsFB(index).getCodeDepartement(), lire1BlocDsFB(index).getPromo(), lire1BlocDsFB(index).getDateEntree());
-		listestagiaires.add(stagiaire);	
-	
+		listestagiaires.add(stagiaire);
+		
+
+		if (lire1IndexEnfantDoublon(index) != -1) {
+			ecrireStagiaireFBDsListObs(lire1IndexEnfantDoublon(index),listestagiaires);
+		}	
+					
 		if (lire1IndexEnfantDroit(index) != -1) {
 			ecrireStagiaireFBDsListObs(lire1IndexEnfantDroit(index),listestagiaires);
-		}	
+		}			
+		
+ 
+
 	
+		
+		
+		
 	}
 	
 	
@@ -618,9 +621,11 @@ public class FichierATraiter {
 	public static void majStagiaire(Stagiaire stagiaireSuppr, Stagiaire stagiaireAjout) {
 		int index=0;
 		
-			supprimer(0,stagiaireSuppr,0);
-			index=FichierATraiter.ecrire1BlocDsFichierBinaire(stagiaireAjout);	
-			FichierATraiter.rechercheParentDsAB(0,stagiaireAjout,index);
+		
+		index=FichierATraiter.ecrire1BlocDsFichierBinaire(stagiaireAjout);	
+		FichierATraiter.rechercheParentDsAB(0,stagiaireAjout,index);
+		supprimer(0,stagiaireSuppr,0);
+
 			
 
 	}
