@@ -128,6 +128,7 @@ public class Main extends Application {
 			Label rechercheLabel = new Label(" Recherche ");
 			TextField rechecherChamp = new TextField();
 			
+			
 			// un bouton rechercher
 			Button rechercherBtn = new Button("Lancer la recherche");
 			rechercherBtn.setPrefSize(150, 20);
@@ -220,19 +221,8 @@ public class Main extends Application {
 				@Override
 				public void handle(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					
-					
-					
-					ObservableList<Stagiaire> listeRecherche = FXCollections.observableArrayList();
-					FichierATraiter.ecrireStagiaireFBDsListObs(0, listeRecherche);
-					FichierATraiter.critereNom(listeRecherche, rechecherChamp.getText().toUpperCase());
-			//		FichierATraiter.ecrireStagiaireFBDsListObs(0, listeRecherche);
-			//
-					
-					//listeStagiaires.clear();
-				//	listeStagiaires.addAll(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
-					listeStagiaires.clear();
-					tableStagiaire.setItems(listeRecherche);
+
+					tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
 					tableStagiaire.refresh();
 					
 				}
