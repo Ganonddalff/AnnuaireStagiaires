@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -125,17 +126,19 @@ public class Main extends Application {
 			titreListe.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
 			
 			//Un champ de recherche
-			Label rechercheLabel = new Label(" Recherche ");
+			Label rechercheLabel = new Label(" Rechercher selon ");
 			TextField rechecherChamp = new TextField();
 			
 			
 			// un bouton rechercher
 			Button rechercherBtn = new Button("Lancer la recherche");
 			rechercherBtn.setPrefSize(150, 20);
-
 			
-			
+			//Liste des criteres
+			String criteres[]= {"Nom","Prénom","Département","Promotion","Année"};
 
+			//ComboBox choix du critère
+			ComboBox<String> choixCritere = new ComboBox<String>(FXCollections.observableArrayList(criteres));
 
 			/*** LES CHOSES SERIEUSES : AFFICHER
 			 * CETTE FICHUE 
@@ -199,7 +202,8 @@ public class Main extends Application {
 			//Positionnement
 			
 			root.add(titreListe,1,0);
-			root.add(rechercheLabel, 0, 1);
+			root.add(rechercheLabel, 0, 0);
+			root.add(choixCritere, 0, 1);
 			root.add(rechecherChamp, 1, 1);
 			root.add(rechercherBtn, 2, 1);
 			root.add(tableStagiaire,1,2);
@@ -221,9 +225,46 @@ public class Main extends Application {
 				@Override
 				public void handle(ActionEvent arg0) {
 					// TODO Auto-generated method stub
+					
+					
+					
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Nom"){
+						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+						
+					}
+					
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Prénom") {
+						tableStagiaire.setItems(FichierATraiter.criterePrenom(listeStagiaires, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+					
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Département") {
+						tableStagiaire.setItems(FichierATraiter.critereCodeDepartement(listeStagiaires, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+					
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Promotion") {
+						tableStagiaire.setItems(FichierATraiter.criterePromo(listeStagiaires, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+						return;
+					}
+					
+					if(choixCritere.getSelectionModel().getSelectedItem()=="Année") {
+						tableStagiaire.setItems(FichierATraiter.critereDateEntree(listeStagiaires, Integer.parseInt(rechecherChamp.getText())));
+						tableStagiaire.refresh();
+						return;
+					}
+					
+					else {
+						tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
+						tableStagiaire.refresh();
+					}
+					
 
-					tableStagiaire.setItems(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
-					tableStagiaire.refresh();
 					
 				}
 			});
