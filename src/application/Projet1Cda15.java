@@ -16,10 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -41,24 +41,29 @@ public class Projet1Cda15 extends Application {
 	}
 	
 	private GridPane createRegistrationFormPane () {
-		GridPane gridPane = new GridPane();
-		gridPane.setAlignment(Pos.CENTER);
-		gridPane.setPadding(new Insets(40, 40, 40, 40));
-		gridPane.setHgap(10);
-		gridPane.setVgap(10);
+		GridPane grille = new GridPane();
+		grille.setAlignment(Pos.CENTER);
+		grille.setPadding(new Insets(40, 20, 40, 20));
+		grille.setHgap(10);
+		grille.setVgap(10);
 		
 		ColumnConstraints columnOneConstraints = new ColumnConstraints(100, 100, Double.MAX_VALUE);
 		columnOneConstraints.setHalignment(HPos.RIGHT);
 		
-		ColumnConstraints columnTwoConstraints = new ColumnConstraints (200, 200, Double.MAX_VALUE);
+		ColumnConstraints columnTwoConstraints = new ColumnConstraints (100, 100, Double.MAX_VALUE);
 		columnTwoConstraints.setHgrow(Priority.ALWAYS);
-		gridPane.getColumnConstraints().addAll(columnOneConstraints, columnTwoConstraints);
+		grille.getColumnConstraints().addAll(columnOneConstraints, columnTwoConstraints);
 		
-		return gridPane;
+		return grille;
 	}
 	
 	private void addUIControls(GridPane gridPane) {
-		Label headerLabel = new Label("Créer un compte");
+//		Text titre = new Text("Bienvenue sur votre espace");
+//		  titre.setId("titreText");
+	        
+//	       grille.add(titre, 0, 0, 2, 1);
+		
+		Label headerLabel = new Label("Bienvenue sur l'espace de connexion");
 		headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 		gridPane.add(headerLabel, 0, 0, 2, 1);
 		GridPane.setHalignment(headerLabel, HPos.CENTER);
@@ -68,23 +73,45 @@ public class Projet1Cda15 extends Application {
 		gridPane.add(email, 0, 2);
 		
 		TextField emailField = new TextField();
-		emailField.setPrefHeight(40);
+		emailField.setPrefHeight(35);
 		gridPane.add(emailField, 1, 2);
 		
 		Label password = new Label("Mot de passe : ");
 		gridPane.add(password, 0, 3);
 		
 		PasswordField passwordMDP = new PasswordField();
-		passwordMDP.setPrefHeight(40);
-		gridPane.add(password, 1, 3);
+		passwordMDP.setPrefHeight(35);
+		gridPane.add(passwordMDP, 1, 3);
 		
+		Button recupInfos = new Button("Récupérer mes informations de connexion");
+		recupInfos.setPrefHeight (40);
+		recupInfos.setDefaultButton(true);
+//		recupInfos.setPrefWidth(250);
+		gridPane.add(recupInfos, 1, 5);
+
+//		GridPane.setMargin(recupInfos, new Insets(20, 0, 20, 0));
+		HBox hbBtn = new HBox(200);
+        hbBtn.setAlignment(Pos.CENTER_LEFT); 
+		
+		Button creerCompte = new Button("Créer un compte");
+		
+		creerCompte.setPrefHeight (40);
+		creerCompte.setDefaultButton(true);
+
+		gridPane.add(creerCompte, 1, 4);
+//		GridPane.setHalignment(creerCompte, HPos.CENTER);
+//		GridPane.setMargin(creerCompte, new Insets(20, 0, 20, 0));
+		HBox hbBtnc = new HBox(40);
+        hbBtnc.setAlignment(Pos.CENTER_RIGHT); 
+        		
 		Button seConnecter = new Button("Se Connecter");
 		seConnecter.setPrefHeight(40);
 		seConnecter.setDefaultButton(true);
-		seConnecter.setPrefWidth(100);
-		gridPane.add(seConnecter, 0, 4, 2, 1);
-		GridPane.setHalignment(seConnecter, HPos.CENTER);
-		GridPane.setMargin(seConnecter, new Insets(20, 0, 20, 0));
+//		seConnecter.setPrefWidth(100);
+		gridPane.add(seConnecter, 1, 4);
+		GridPane.setHalignment(seConnecter, HPos.RIGHT);
+	
+//		GridPane.setMargin(seConnecter, new Insets(20, 0, 20, 0));
 		
 		seConnecter.setOnAction(new EventHandler<ActionEvent>() {
 			
