@@ -54,7 +54,7 @@ public class Main extends Application {
 			GridPane root = new GridPane();
 
 			//création d'une scène 
-			Scene scene = new Scene(root,850,900,Color.DIMGRAY);
+			Scene scene = new Scene(root,850,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 
@@ -63,7 +63,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Projet 1 TSKB");
 
 			// Choix de la couleur de fond de l'app
-			scene.setFill(Color.GRAY);
+			//scene.setFill(Color.GRAY);
 			primaryStage.setScene(scene);
 			//			//Création de myMenu qui est une barre de menu
 			//			MenuBar myMenu = new MenuBar();
@@ -212,9 +212,33 @@ public class Main extends Application {
 
 			//Lancement de primaryStage
 			primaryStage.show();
+			
+			
+			//Action "lancer la recherche"
+			rechercherBtn.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					
+					
+					
+					ObservableList<Stagiaire> listeRecherche = FXCollections.observableArrayList();
+					FichierATraiter.ecrireStagiaireFBDsListObs(0, listeRecherche);
+					FichierATraiter.critereNom(listeRecherche, rechecherChamp.getText().toUpperCase());
+			//		FichierATraiter.ecrireStagiaireFBDsListObs(0, listeRecherche);
+			//
+					
+					//listeStagiaires.clear();
+				//	listeStagiaires.addAll(FichierATraiter.critereNom(listeStagiaires, rechecherChamp.getText()));
+					listeStagiaires.clear();
+					tableStagiaire.setItems(listeRecherche);
+					tableStagiaire.refresh();
+					
+				}
+			});
 
 			//Action appuyer sur ajouter ouvre une nouvelle fenêtre
-
 			ajouterBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -232,7 +256,7 @@ public class Main extends Application {
 					gridAjout.setPadding(new Insets(25, 25, 25, 25));
 
 					//On crée une scène, plus petite que la 1ère
-					Scene sceneAjout = new Scene(gridAjout,900,380,Color.GRAY);
+					Scene sceneAjout = new Scene(gridAjout,900,380);
 					sceneAjout.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 					//On lie la scène à la fenêtre
 					secondaryStage.setScene(sceneAjout);
@@ -338,7 +362,7 @@ public class Main extends Application {
 							}
 							else {
 								// On récupère les différents attributs avec getText()
-								String nomStagiaire = champNom.getText();
+								String nomStagiaire = champNom.getText().toUpperCase();
 								String prenomStagiaire =  champPrenom.getText();
 								String deptStagiaire = champDept.getText();
 								String promoStagiaire = champPromo.getText();
@@ -364,13 +388,18 @@ public class Main extends Application {
 								HBox hbFermerFenetre = new HBox(10);
 								hbFermerFenetre.getChildren().add(fermerFenetre);
 								gridAjout.add(fermerFenetre,3,9);
+								
+								//On ajoute le nouveau stagiaire à la liste
+								listeStagiaires.add(newStagiaire);
+								
+								tableStagiaire.refresh();
 
 								fermerFenetre.setOnAction(new EventHandler<ActionEvent>() {
 
 									@Override
 									public void handle(ActionEvent arg0) {
 										// TODO Auto-generated method stub
-
+									
 										secondaryStage.close();
 									}
 								});
@@ -438,7 +467,6 @@ public class Main extends Application {
 							for(int i=0; i<listestagiaires.size();i++ ) {
 
 								if(listestagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
-									System.out.println("ok");
 
 									//Affichage du résultat de la recherche
 									//Création des éléments à afficher
@@ -515,7 +543,7 @@ public class Main extends Application {
 									return;
 								}
 								else {
-									System.out.println("pas ok");
+									
 								}
 								//		System.out.println(listestagiaires.get(i).getNom());
 							}
