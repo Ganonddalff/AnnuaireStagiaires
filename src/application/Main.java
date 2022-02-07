@@ -548,16 +548,16 @@ public class Main extends Application {
 
 
 						Stagiaire oldStagiaire = tableStagiaire.getSelectionModel().getSelectedItem();
-						
+
 						Button enregistrer = new Button("Enregistrer");
 						gridModif.add(enregistrer, 2, 7);
-						
+
 						enregistrer.setOnAction(new EventHandler<ActionEvent>() {
-						
+
 							@Override
 							public void handle(ActionEvent arg0) {
 								// TODO Auto-generated method stub
-								
+
 								String newNom = nom.getText();
 								String newPrenom = prenom.getText();
 								String newDpt = dept.getText();
@@ -570,11 +570,12 @@ public class Main extends Application {
 								tableStagiaire.refresh();
 								System.out.println();
 								modifStage.close();
+								rechecherChamp.clear();
 								rechercherBtn.fireEvent(arg0);
 
 							}
 						});
-						
+
 
 
 						return;
@@ -704,6 +705,7 @@ public class Main extends Application {
 												listeStagiaire.remove(oldStagiaire);
 												tableStagiaire.refresh();
 												System.out.println();
+												rechecherChamp.clear();
 												rechercherBtn.fireEvent(arg0);
 
 
@@ -734,9 +736,114 @@ public class Main extends Application {
 				public void handle(ActionEvent arg0) {
 					// TODO Auto-generated method stub
 
+					//Création de la fenêtre
+					Stage rechercheAvStage = new Stage ();
+					GridPane rechercheAvPane = new GridPane();
+					rechercheAvPane.setHgap(10);
+					rechercheAvPane.setVgap(10);
+					rechercheAvPane.setPadding(new Insets(25,25,25,25));
+					Scene rechercheScene = new Scene(rechercheAvPane,600,350);
+					rechercheAvStage.setScene(rechercheScene);
+					rechercheAvStage.show();
+
+
+					//Création des éléments graphiques
+					Text rechercheTitre = new Text("Recherche avancée");
+					rechercheTitre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+					Label labelNom = new Label("Nom : ");
+					labelNom.setPrefHeight(20);
+					Label labelPrenom = new Label("Prénom : ");
+					labelPrenom.setPrefHeight(20);
+					Label labelDpt = new Label("Département : ");
+					labelDpt.setPrefHeight(20);
+					Label labelPromo = new Label("Promotion : ");
+					labelPromo.setPrefHeight(20);
+					Label labelAnnee = new Label("Année : ");
+					labelAnnee.setPrefHeight(20);
+
+					TextField champNom = new TextField();
+					champNom.setPrefHeight(20);
+					TextField champPrenom = new TextField();
+					champPrenom.setPrefHeight(20);
+					TextField champDpt = new TextField();
+					champDpt.setPrefHeight(20);
+					TextField champPromo = new TextField();
+					champPromo.setPrefHeight(20);
+					TextField champAnnee = new TextField();
+					champAnnee.setPrefHeight(20);
+
+					Button lancerRechercheAv = new Button("Lancer la recherche");
+					lancerRechercheAv.setPrefSize(150, 20);
+
+					//Création de deux VBox pour les champs et les labels
+
+					VBox vboxLabel = new VBox();
+					vboxLabel.getChildren().addAll(labelNom,labelPrenom,labelDpt,labelPromo,labelAnnee);
+					vboxLabel.setSpacing(22);
+
+					VBox vboxChamp = new VBox();
+					vboxChamp.getChildren().addAll(champNom,champPrenom,champDpt,champPromo,champAnnee);
+					vboxChamp.setSpacing(15);
+
+					//Positionnemnt sur Grid
+
+					rechercheAvPane.setAlignment(Pos.TOP_CENTER);
+
+					rechercheAvPane.add(rechercheTitre,0,0);
+
+					rechercheAvPane.add(vboxLabel, 0, 2);
+					rechercheAvPane.add(vboxChamp, 1, 2);
+
+					rechercheAvPane.add(lancerRechercheAv, 3, 3);
+
+					//Execution de la recherche avancée à l'appui du bouton
+
+					lancerRechercheAv.setOnAction(new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							// TODO Auto-generated method stub
+							
+							
+							//Méthode multriCriteres du FichierATraiter : les champs vides recoivent la valeur -1
+							
+							if (champNom.getText()=="") {
+								champNom.setText("-1");
+							}
+							if (champPrenom.getText()=="") {
+								champPrenom.setText("-1");
+							}
+
+							if (champDpt.getText()=="") {
+								champDpt.setText("-1");
+							}
+
+							if (champPromo.getText()=="") {
+								champPromo.setText("-1");
+							}
+
+							if (champAnnee.getText()=="") {
+								champAnnee.setText("-1");
+							}
+							
+							
+							//on place le résultat de multicriteres dans le tableview
+							tableStagiaire.setItems(FichierATraiter.multiCriteres(listeStagiaire, champNom.getText(),champPrenom.getText(),champDpt.getText(), champPromo.getText(), Integer.parseInt(champAnnee.getText())));
+							//refresh de la tableview
+							tableStagiaire.refresh();
+							
+							//on ferme la fenetre
+							rechercheAvStage.close();
+
+						}
+					});
+
 
 
 				}
+
+
 			});
 			supprimerBtn.setOnAction(new EventHandler<ActionEvent>() {
 

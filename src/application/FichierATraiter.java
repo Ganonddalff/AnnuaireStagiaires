@@ -766,7 +766,7 @@ public class FichierATraiter {
 			listeInterne=critereCodeDepartement(listeInterne,codeDepartement);
 		}	
 		if (promo != "-1") {
-			listeInterne=criterePrenom(listeInterne,promo);
+			listeInterne=criterePromo(listeInterne,promo);
 		}		
 		
 		if (dateEntree != -1) {
