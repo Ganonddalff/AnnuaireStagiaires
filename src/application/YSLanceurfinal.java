@@ -98,11 +98,11 @@ public class YSLanceurfinal {
 //	Stagiaire s8 =  new Stagiaire("YOUYOUTTE","Jonathan","78","AI 78",2010);	
 //	FichierATraiter.convertirBonFormat(s8);	
 	
-	Stagiaire s9 =  new Stagiaire("ZHANG","GeGe","94","ATOD 26 CP",2015);	
-	FichierATraiter.convertirBonFormat(s9);	
-	
-	Stagiaire s10 =  new Stagiaire("ZHANG","A","0","CDA 25",2023);	
-	FichierATraiter.convertirBonFormat(s10);	
+//	Stagiaire s9 =  new Stagiaire("ZHANG","GeGe","94","ATOD 26 CP",2015);	
+//	FichierATraiter.convertirBonFormat(s9);	
+//	
+//	Stagiaire s10 =  new Stagiaire("ZHANG","A","0","CDA 25",2023);	
+//	FichierATraiter.convertirBonFormat(s10);	
 		
 //		index=FichierATraiter.ecrire1BlocDsFichierBinaire(s1);	
 //		FichierATraiter.rechercheParentDsAB(0, s1, index);	
@@ -112,7 +112,7 @@ public class YSLanceurfinal {
 //		FichierATraiter.majStagiaire(s9, s10);
 		
 		FichierATraiter.afficherInfixe(0);		
-		
+	
 		
 //		System.out.println("apres convertirBonFormat() "+s1.getNom()+" "+s1.getPrenom()+" DEp " +s1.getCodeDepartement()+ " Prom "+s1.getPromo()+" date "+s1.getDateEntree() );		
 
@@ -121,6 +121,20 @@ public class YSLanceurfinal {
 	//	System.out.println(" taille de la liste observable "+listeObserStag.size());
 		
 
+//	FichierATraiter.ecrireStagiaireFBDsListObs(0,listeObserStag);
+	
+//	//  gestion multicriteres                       nom prenom departement promotion dateEntree(entier)
+//listeObserStag=FichierATraiter.multiCriteres(listeObserStag,"-1","a","91","-1",-1);
+//	
+//
+//	for (Stagiaire stagiaire : listeObserStag) {
+//		
+//		System.out.println(stagiaire.getNom()+" "+ stagiaire.getPrenom()+ " dep "+stagiaire.getCodeDepartement()+" promo "+stagiaire.getPromo() +" date "+stagiaire.getDateEntree() );
+//	}
+//	
+	
+	
+	
 	}
 	
 	
