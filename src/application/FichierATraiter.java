@@ -486,34 +486,25 @@ public class FichierATraiter {
 	
 		System.out.println(" supprimerStagiaire() : stagiaire "+ lire1BlocDsFB(indexStagiaire).getNom() +" index "+indexStagiaire+" a  IndexEnfantGauche: "+ lire1IndexEnfantGauche(indexStagiaire) +" droit " +lire1IndexEnfantDroit(indexStagiaire));
 	
-		//cas du stagiaire a supprime qui a un doublon dans son indexEnfant
-		if(lire1IndexEnfantDoublon(indexStagiaire) != -1) {
-			// remplacer le stagiaire par son doublon dans IndexEnfant du parent
-			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
-				ecrireIndexEnfantGaucheDsParent(indexParent, lire1IndexEnfantDoublon(indexStagiaire));			
-			}
-			if (lire1IndexEnfantDroit(indexParent) == indexStagiaire) {
-				ecrireIndexEnfantDroitDsParent(indexParent, lire1IndexEnfantDoublon(indexStagiaire));			
-			}
-			
-			
-			//mettre l IndexEnfantDroit et gauche du stagiaire dans celui du doublon
-			
+		//cas du stagiaire
+		if(lire1IndexEnfantDoublon(indexParent) == indexStagiaire) {
 
-			ecrireIndexEnfantGaucheDsParent(lire1IndexEnfantDoublon(indexStagiaire), lire1IndexEnfantGauche(indexStagiaire)); 
-			ecrireIndexEnfantDroitDsParent(lire1IndexEnfantDoublon(indexStagiaire), lire1IndexEnfantDroit(indexStagiaire)); 			
-			
-			
+			// remplacer le stagiaire par son doublon dans IndexEnfant du parent
+				System.out.println("supprimerStagiaire() le noeud est un doublon  on supprime indexEnfantDoublon de son parent");
+				ecrireIndexEnfantDoublonDsParent(indexParent, lire1IndexEnfantDoublon(indexStagiaire));			
+		
 			
 		// si le stagiaire n'a pas d'enfant, on modifie l'indexEnfantXXX (correspondant
 		// au stagiaire) de son parent a -1
 		} else if (lire1IndexEnfantGauche(indexStagiaire) == -1 && lire1IndexEnfantDroit(indexStagiaire) == -1) {
 			if (lire1IndexEnfantGauche(indexParent) == indexStagiaire) {
 				ecrireIndexEnfantGaucheDsParent(indexParent, -1);
+				System.out.println("supprimerStagiaire() le noeud n a ni G ni D supprime indexEnfantGauche du parent");
 
 			}
 			if (lire1IndexEnfantDroit(indexParent) == indexStagiaire) {
 				ecrireIndexEnfantDroitDsParent(indexParent, -1);
+				System.out.println("supprimerStagiaire() le noeud n a ni G ni D supprime indexEnfantDroit du parent");				
 			}
 			//rien a droite donc l'enfant gauche du stagiaire remplace le stagiaire dans l'IndexEnfantGauche du parent
 		} else if (lire1IndexEnfantDroit(indexStagiaire) == -1) {
