@@ -153,7 +153,7 @@ public class Main extends Application {
 
 			public void handle(ActionEvent event) {
 
-				File fichierUser =new File("/home/matt/git/AnnuaireStagiaires/src/application/data/users");
+				File fichierUser =new File("./src/application/data/users");
 
 				Users[] utilisateurs = new Users[Users.getNbusers()];
 
@@ -296,6 +296,10 @@ public class Main extends Application {
 							Button modifierBtn = new Button("Modifier un stagiaire");
 							modifierBtn.setPrefSize(150, 20);
 
+							//Création du bouton pour initialiser le fichier .bin
+							Button initialiserBIN = new Button("Initialiser le bin");
+							initialiserBIN.setPrefSize(150, 20);
+							
 							//Création du bouton exportPDF
 							Button exportPDF = new Button("Exporter en pdf");
 							exportPDF.setPrefSize(150, 20);
@@ -391,7 +395,7 @@ public class Main extends Application {
 							//VBox pour les boutons sur la droite
 							VBox boutons = new VBox();
 
-							boutons.getChildren().addAll(rechercheAvanceeBtn,ajouterBtn,modifierBtn,supprimerBtn,exportPDF,aide);
+							boutons.getChildren().addAll(rechercheAvanceeBtn,ajouterBtn,modifierBtn,supprimerBtn,exportPDF,initialiserBIN,aide);
 							boutons.setSpacing(50);
 							boutons.setAlignment(Pos.CENTER_RIGHT);
 							//	boutons.setPadding(new Insets(15,0,40,10));
@@ -401,7 +405,7 @@ public class Main extends Application {
 							if(userCurrent.getAdmin()==false) {
 								modifierBtn.setVisible(false);
 								supprimerBtn.setVisible(false);
-
+								initialiserBIN.setVisible(false);
 							}
 
 
@@ -1137,6 +1141,152 @@ public class Main extends Application {
 
 								}
 							});
+							
+							//Action appuyer sur initialiser ouvre une nouvelle fenêtre
+							initialiserBIN.setOnAction(new EventHandler<ActionEvent>() {
+
+								@Override
+								public void handle(ActionEvent arg0) {
+									// TODO Auto-generated method stub
+
+									//On crée la deuxième fenêtre
+									Stage secondaryStage = new Stage();
+
+									//On crée un grid pour cette fenêtre
+									GridPane gridAjout = new GridPane();
+									gridAjout.setAlignment(Pos.TOP_CENTER);
+									gridAjout.setHgap(10);
+									gridAjout.setVgap(10);
+									gridAjout.setPadding(new Insets(25, 25, 25, 25));
+
+									//On crée une scène, plus petite que la 1ère
+									Scene sceneAjout = new Scene(gridAjout,900,380);
+									sceneAjout.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+									//On lie la scène à la fenêtre
+									secondaryStage.setScene(sceneAjout);
+									//On nomme cette fenêtre 
+									secondaryStage.setTitle("Initialiser le fichier bin");
+									//Et on l'affiche
+									secondaryStage.show();
+
+									/****On ajoute des éléments : ****/
+
+									//Le titre de la PAGE
+									/* Le texte*/	Text titreFenetre = new Text("Initialiser le fichier bin");
+									titreFenetre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+									/*Ajouter à la grille*/				
+									gridAjout.add(titreFenetre, 0, 0);
+
+									//Les différents attributs du stagiaire
+
+									//Le label labelSuppBin
+//									Label labelSuppBin = new Label("Appuyer sur ce bouton pour supprimer le fichier bin");
+//									gridAjout.add(labelSuppBin, 1, 1);
+
+
+									//Le bouton de suppresion  du fichier binaire
+									Button supprimerBIN = new Button("supprimer");
+//									gridAjout.add(supprimerBIN, 0, 1);
+									
+									HBox hbSuppBin = new HBox(supprimerBIN);
+									hbSuppBin.setSpacing(10);
+									gridAjout.add(hbSuppBin, 0, 2);
+
+
+									// On répète pour tous les attributs
+
+									//Rang 2 Prénom
+
+//									Label labelDON = new Label(" chemin d'accès au fichier *.don ");
+//									gridAjout.add(labelDON, 0, 2);
+
+									TextField cheminAccesDON = new TextField("chemin d'accès du fichier DON ");
+									cheminAccesDON.setPrefHeight(35);
+//									gridAjout.add(cheminAccesDON, 1, 2);
+									
+									HBox hbcheminAccesDON = new HBox(cheminAccesDON);
+									hbcheminAccesDON.setSpacing(10);
+									gridAjout.add(cheminAccesDON, 0, 3);
+
+									//Rang 3 
+
+									Label labelBIN = new Label(" Appuyer sur ce bouton pour générer le fichier binaire");
+//									gridAjout.add(labelBIN, 1, 3);
+									Button  genererBIN= new Button("générer fichier bin");
+//									gridAjout.add(genererBIN, 0, 3);
+									
+									HBox hbgenererBIN = new HBox(genererBIN,labelBIN);
+									hbgenererBIN.setSpacing(10);
+									gridAjout.add(genererBIN, 0, 4);
+									
+									//Rang 5
+
+									Button fermerFenetre = new Button("Fermer");
+									HBox hbfermerFenetre = new HBox(10);
+									hbfermerFenetre.setAlignment(Pos.CENTER);
+									hbfermerFenetre.getChildren().add(fermerFenetre);
+									gridAjout.add(fermerFenetre, 0, 6);	
+									
+
+									
+	
+									supprimerBIN.setOnAction(new EventHandler<ActionEvent>() {
+										
+										public void handle(ActionEvent event) {
+
+
+											File file =new File("src/application/data/fichier.bin");
+												file.delete();		
+											}
+										});	
+									genererBIN.setOnAction(new EventHandler<ActionEvent>() {
+										
+										public void handle(ActionEvent event) {
+											int index =0;	
+											
+											
+											//FichierATraiter fichier = new FichierATraiter("./src/application/data/STAGIAIRES.DON");				
+											FichierATraiter fichier = new FichierATraiter(cheminAccesDON.getText());
+
+											List<Stagiaire> listestagiaires = new Vector<Stagiaire>();
+											listestagiaires=fichier.fabriqueChaine();
+											
+											// on cree la racine du fichier
+											index = FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(0));
+											//on ajoute chaque stagiaire dans le fichier binaire et on cree le lien avec son parent dans la structure ABR
+											for(int i=1; i<listestagiaires.size(); i++ ) {
+												index=FichierATraiter.ecrire1BlocDsFichierBinaire(listestagiaires.get(i));	
+												FichierATraiter.rechercheParentDsAB(0,listestagiaires.get(i),index);
+
+											}				
+											
+											}
+										});	
+
+												fermerFenetre.setOnAction(new EventHandler<ActionEvent>() {
+
+													@Override
+													public void handle(ActionEvent arg0) {
+
+														File file1 =new File("src/application/data/fichier.bin");
+														
+														if(file1.exists()) {
+														secondaryStage.close();
+														System.out.println(" le fichier existe ");
+														return;
+														}else {
+															Label labelErreur =new Label("Pas de fichier binaire"); 
+															gridAjout.add(labelErreur, 0, 7);	
+															return;
+														}
+													}
+												});
+
+
+											}
+									});
+							
+							
 							exportPDF.setOnAction(new EventHandler<ActionEvent>() {
 
 								@Override
