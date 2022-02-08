@@ -153,7 +153,7 @@ public class Main extends Application {
 
 			public void handle(ActionEvent event) {
 
-				File fichierUser =new File("/Users/antoine/git/AnnuaireStagiaires/src/application/data/users");
+				File fichierUser =new File("/home/matt/git/AnnuaireStagiaires/src/application/data/users");
 
 				Users[] utilisateurs = new Users[Users.getNbusers()];
 
@@ -1009,22 +1009,22 @@ public class Main extends Application {
 
 											//Méthode multriCriteres du FichierATraiter : les champs vides recoivent la valeur -1
 
-											if (champNom.getText()=="") {
+											if (champNom.getText().trim().isEmpty()) {
 												champNom.setText("-1");
 											}
-											if (champPrenom.getText()=="") {
+											if (champPrenom.getText().trim().isEmpty()) {
 												champPrenom.setText("-1");
 											}
 
-											if (champDpt.getText()=="") {
+											if (champDpt.getText().trim().isEmpty()) {
 												champDpt.setText("-1");
 											}
 
-											if (champPromo.getText()=="") {
+											if (champPromo.getText().trim().isEmpty()) {
 												champPromo.setText("-1");
 											}
 
-											if (champAnnee.getText()=="") {
+											if (champAnnee.getText().trim().isEmpty()) {
 												champAnnee.setText("-1");
 											}
 
