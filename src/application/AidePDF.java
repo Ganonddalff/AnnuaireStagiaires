@@ -11,12 +11,20 @@ public class AidePDF {
 // ************** Modifier le chemin du fichier *********** ///
 	
 		  public static void main(String args[]){
+			  
+			  String cheminFichier = "/home/matt/Documents/ISIKA/Projet1/liste.pdf";
 		    try 
 		    {
-		    	File f  = new File("/Users/antoine/MALISTEPROJET.pdf");
+		    	File f  = new File(cheminFichier);
 		    	Desktop.getDesktop().open(f);
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
+		        System.out.println("Pas de fichier");
 		    }
+		    
+		    
 		  }
+		  
+		  
+		  
 		}
