@@ -1160,7 +1160,7 @@ public class Main extends Application {
 									gridAjout.setPadding(new Insets(25, 25, 25, 25));
 
 									//On crée une scène, plus petite que la 1ère
-									Scene sceneAjout = new Scene(gridAjout,900,380);
+									Scene sceneAjout = new Scene(gridAjout,470,270);
 									sceneAjout.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 									//On lie la scène à la fenêtre
 									secondaryStage.setScene(sceneAjout);
@@ -1202,6 +1202,7 @@ public class Main extends Application {
 
 									TextField cheminAccesDON = new TextField("chemin d'accès du fichier DON ");
 									cheminAccesDON.setPrefHeight(35);
+									cheminAccesDON.setText("./src/application/data/STAGIAIRES.DON");
 //									gridAjout.add(cheminAccesDON, 1, 2);
 									
 									HBox hbcheminAccesDON = new HBox(cheminAccesDON);
