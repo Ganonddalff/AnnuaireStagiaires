@@ -225,7 +225,7 @@ public class Main extends Application {
 					if (userCurrent.compareUsers(utilisateurs[i])==true) {
 						//showAlert (Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Validation de votre inscription", "Bienvenue sur votre espace");
 						
-						
+
 						
 						userCurrent.setAdmin(utilisateurs[i].getAdmin());
 						Stage primaryStage = new Stage();
@@ -322,6 +322,8 @@ public class Main extends Application {
 							//un bouton recherche multicritère
 							Button rechercheAvanceeBtn = new Button("Recherche avancée");
 							rechercheAvanceeBtn.setPrefSize(150, 20);
+							
+							
 
 
 
@@ -389,9 +391,12 @@ public class Main extends Application {
 							boutons.setAlignment(Pos.CENTER_RIGHT);
 							//	boutons.setPadding(new Insets(15,0,40,10));
 
+							
+							// Droit admin
 							if(userCurrent.getAdmin()==false) {
 								modifierBtn.setVisible(false);
 								supprimerBtn.setVisible(false);
+								
 							}
 							
 
@@ -746,9 +751,14 @@ public class Main extends Application {
 												int newAnnee = Integer.parseInt(annee.getText());
 												Stagiaire newStagiaire = new Stagiaire(newNom,newPrenom,newDpt,newPromo,newAnnee);
 												FichierATraiter.majStagiaire(oldStagiaire, newStagiaire);
-												listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
-												listeStagiaire.remove(oldStagiaire);
+												listeStagiaire.clear();
 												tableStagiaire.refresh();
+												FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
+												tableStagiaire.setItems(listeStagiaire);
+											//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+											//	listeStagiaire.remove(oldStagiaire);
+												tableStagiaire.refresh();
+
 												System.out.println();
 												modifStage.close();
 												rechecherChamp.clear();
@@ -799,21 +809,21 @@ public class Main extends Application {
 											/*début de l'action*/					
 
 											public void handle(ActionEvent arg0) {
-												ObservableList<Stagiaire> listeStagiaires = FXCollections.observableArrayList();
+												ObservableList<Stagiaire> listeStagiaire = FXCollections.observableArrayList();
 
 
-												FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaires);
+												FichierATraiter.ecrireStagiaireFBDsListObs(0,listeStagiaire);
 
 
-												System.out.println(listeStagiaires);
+												System.out.println(listeStagiaire);
 
 
 
 
 												/*****ECRIRE ICI PROGRAMME RECHERCHE*****/	
-												for(int i=0; i<listeStagiaires.size();i++ ) {
+												for(int i=0; i<listeStagiaire.size();i++ ) {
 
-													if(listeStagiaires.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
+													if(listeStagiaire.get(i).getNom().startsWith(champNom.getText().toUpperCase())) {
 
 														//Affichage du résultat de la recherche
 														//Création des éléments à afficher
@@ -882,8 +892,13 @@ public class Main extends Application {
 																int newAnnee = Integer.parseInt(annee.getText());
 																Stagiaire newStagiaire = new Stagiaire(newNom,newPrenom,newDpt,newPromo,newAnnee);
 																FichierATraiter.majStagiaire(oldStagiaire, newStagiaire);
-																listeStagiaire.add(newStagiaire);
-																listeStagiaire.remove(oldStagiaire);
+																listeStagiaire.clear();
+																tableStagiaire.refresh();
+																FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
+																tableStagiaire.setItems(listeStagiaire);
+															//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+															//	listeStagiaire.remove(oldStagiaire);
+																tableStagiaire.refresh();
 																tableStagiaire.refresh();
 																System.out.println();
 																rechecherChamp.clear();
@@ -902,7 +917,7 @@ public class Main extends Application {
 													else {
 
 													}
-													//		System.out.println(listestagiaires.get(i).getNom());
+													//		System.out.println(listestagiaire.get(i).getNom());
 												}
 											}});
 
@@ -1013,6 +1028,7 @@ public class Main extends Application {
 											tableStagiaire.setItems(FichierATraiter.multiCriteres(listeStagiaire, champNom.getText(),champPrenom.getText(),champDpt.getText(), champPromo.getText(), Integer.parseInt(champAnnee.getText())));
 											//refresh de la tableview
 											tableStagiaire.refresh();
+									//		tableStagiaire.getItems().clear();
 
 											//on ferme la fenetre
 											rechercheAvStage.close();
@@ -1082,9 +1098,17 @@ public class Main extends Application {
 											@Override
 											public void handle(ActionEvent arg0) {
 												// TODO Auto-generated method stub
-												listeStagiaire.remove(tableStagiaire.getSelectionModel().getSelectedIndex());
+											//	listeStagiaire.remove(tableStagiaire.getSelectionModel().getSelectedIndex());
+												listeStagiaire.clear();
+												
 												tableStagiaire.refresh();	
 												FichierATraiter.supprimer(0, stagiaireClic, 0);
+												
+												FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
+												tableStagiaire.setItems(listeStagiaire);
+											//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+											//	listeStagiaire.remove(oldStagiaire);
+												tableStagiaire.refresh();
 												System.out.println("Le stagiaire a bien été effacé");
 												confirmStage.close();
 												rechercherBtn.fireEvent(arg0);
