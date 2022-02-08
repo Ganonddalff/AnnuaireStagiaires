@@ -1,0 +1,8 @@
+module template {
+	requires javafx.controls;
+	requires javafx.graphics;
+	requires javafx.base;
+	requires java.desktop;
+	requires kernel;
+	opens application to javafx.graphics, javafx.fxml,javafx.base;
+}
