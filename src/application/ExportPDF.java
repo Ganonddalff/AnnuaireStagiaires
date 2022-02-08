@@ -32,7 +32,7 @@ public class ExportPDF {
 	// ********************** Attention à bien intégrer la méthode ajoutLigneVide  ******************* 
 
 	// Adresse de l'exportation du PDF
-	protected static String FICHIER =  "/home/matt/Documents/ISIKA/Projet1/liste.pdf"; 
+	protected static String FICHIER =  "/Users/antoine/Documents/Me/Informatique/ISIKA/projet_1_fichiers/liste.pdf"; 
 
 	// Décoration du texte
 	protected static Font policeTitre = new Font(Font.FontFamily.HELVETICA, 20, Font.NORMAL);

@@ -153,7 +153,7 @@ public class Main extends Application {
 
 			public void handle(ActionEvent event) {
 
-				File fichierUser =new File("/home/matt/git/AnnuaireStagiaires/src/application/data/users");
+				File fichierUser =new File("/Users/antoine/git/AnnuaireStagiaires/src/application/data/users");
 
 				Users[] utilisateurs = new Users[Users.getNbusers()];
 
@@ -217,23 +217,23 @@ public class Main extends Application {
 				System.out.println("nom saisi : "+userCurrent.getUserName()+" pswd : "+userCurrent.getPswd());
 				//***ajouter ici le code de lecture du fichier USER***//
 
-				
+
 
 				for(int i = 0; i<utilisateurs.length;i++) {
 					System.out.println("nom fichier : "+utilisateurs[i].getUserName()+"\n"+"Pswd : "+utilisateurs[i].getPswd());
 					System.out.println(userCurrent.compareUsers(utilisateurs[i]));
 					if (userCurrent.compareUsers(utilisateurs[i])==true) {
 						//showAlert (Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Validation de votre inscription", "Bienvenue sur votre espace");
-						
 
-						
+
+
 						userCurrent.setAdmin(utilisateurs[i].getAdmin());
 						Stage primaryStage = new Stage();
 
 						try {
 							//création de root
 							GridPane root = new GridPane();
-							
+
 							//création d'une scène 
 							Scene scene = new Scene(root,900,900);
 							scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -300,6 +300,11 @@ public class Main extends Application {
 							Button exportPDF = new Button("Exporter en pdf");
 							exportPDF.setPrefSize(150, 20);
 
+							//Création du bouton AIDE -Atn
+							Button aide = new Button("Aide");
+							aide.setPrefSize(150, 20);
+
+
 
 							//Le titre de la liste situé en haut
 							Text titreListe = new Text("Liste des stagiaires");
@@ -322,8 +327,8 @@ public class Main extends Application {
 							//un bouton recherche multicritère
 							Button rechercheAvanceeBtn = new Button("Recherche avancée");
 							rechercheAvanceeBtn.setPrefSize(150, 20);
-							
-							
+
+
 
 
 
@@ -386,19 +391,19 @@ public class Main extends Application {
 							//VBox pour les boutons sur la droite
 							VBox boutons = new VBox();
 
-							boutons.getChildren().addAll(rechercheAvanceeBtn,ajouterBtn,modifierBtn,supprimerBtn,exportPDF);
+							boutons.getChildren().addAll(rechercheAvanceeBtn,ajouterBtn,modifierBtn,supprimerBtn,exportPDF,aide);
 							boutons.setSpacing(50);
 							boutons.setAlignment(Pos.CENTER_RIGHT);
 							//	boutons.setPadding(new Insets(15,0,40,10));
 
-							
+
 							// Droit admin
 							if(userCurrent.getAdmin()==false) {
 								modifierBtn.setVisible(false);
 								supprimerBtn.setVisible(false);
-								
+
 							}
-							
+
 
 
 							//Positionnement
@@ -439,7 +444,7 @@ public class Main extends Application {
 
 							//Action "lancer la recherche"
 							rechercherBtn.setOnAction(new EventHandler<ActionEvent>() {
-								
+
 								@Override
 								public void handle(ActionEvent arg0) {
 									// TODO Auto-generated method stub
@@ -662,10 +667,10 @@ public class Main extends Application {
 								}
 							});
 							modifierBtn.setOnAction(new EventHandler<ActionEvent>() {
-								
+
 								@Override
 								public void handle(ActionEvent arg0) {
-									
+
 									Stagiaire stagiaireClic = tableStagiaire.getSelectionModel().getSelectedItem();
 
 									if(stagiaireClic != null) {
@@ -755,8 +760,8 @@ public class Main extends Application {
 												tableStagiaire.refresh();
 												FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
 												tableStagiaire.setItems(listeStagiaire);
-											//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
-											//	listeStagiaire.remove(oldStagiaire);
+												//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+												//	listeStagiaire.remove(oldStagiaire);
 												tableStagiaire.refresh();
 
 												System.out.println();
@@ -896,8 +901,8 @@ public class Main extends Application {
 																tableStagiaire.refresh();
 																FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
 																tableStagiaire.setItems(listeStagiaire);
-															//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
-															//	listeStagiaire.remove(oldStagiaire);
+																//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+																//	listeStagiaire.remove(oldStagiaire);
 																tableStagiaire.refresh();
 																tableStagiaire.refresh();
 																System.out.println();
@@ -1023,12 +1028,11 @@ public class Main extends Application {
 												champAnnee.setText("-1");
 											}
 
-
 											//on place le résultat de multicriteres dans le tableview
 											tableStagiaire.setItems(FichierATraiter.multiCriteres(listeStagiaire, champNom.getText(),champPrenom.getText(),champDpt.getText(), champPromo.getText(), Integer.parseInt(champAnnee.getText())));
 											//refresh de la tableview
 											tableStagiaire.refresh();
-									//		tableStagiaire.getItems().clear();
+											//		tableStagiaire.getItems().clear();
 
 											//on ferme la fenetre
 											rechercheAvStage.close();
@@ -1098,16 +1102,16 @@ public class Main extends Application {
 											@Override
 											public void handle(ActionEvent arg0) {
 												// TODO Auto-generated method stub
-											//	listeStagiaire.remove(tableStagiaire.getSelectionModel().getSelectedIndex());
+												//	listeStagiaire.remove(tableStagiaire.getSelectionModel().getSelectedIndex());
 												listeStagiaire.clear();
-												
+
 												tableStagiaire.refresh();	
 												FichierATraiter.supprimer(0, stagiaireClic, 0);
-												
+
 												FichierATraiter.ecrireStagiaireFBDsListObs(0, listeStagiaire);
 												tableStagiaire.setItems(listeStagiaire);
-											//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
-											//	listeStagiaire.remove(oldStagiaire);
+												//	listeStagiaire.add(tableStagiaire.getSelectionModel().getSelectedIndex(), newStagiaire);
+												//	listeStagiaire.remove(oldStagiaire);
 												tableStagiaire.refresh();
 												System.out.println("Le stagiaire a bien été effacé");
 												confirmStage.close();
@@ -1139,35 +1143,47 @@ public class Main extends Application {
 								public void handle(ActionEvent arg0) {
 									// TODO Auto-generated method stub
 
-
-
 									System.out.println("Lancement de l'écriture du fichier ...");	
 									ExportPDF.exportListePDF(listeStagiaire);
 									System.out.println("Le fichier PDF a bien été généré");
 
-									String cheminFichier = "/home/matt/Documents/ISIKA/Projet1/liste.pdf";
-
-									if(Desktop.isDesktopSupported()==true) {	
-
-										System.out.println("Le fichier devrait pouvoir être lu");
-										//										try 
-										//										{
-										//											File f  = new File(cheminFichier);
-										//											Desktop.getDesktop().get
-										//										} catch (Exception ex) {
-										//											ex.printStackTrace();
-										//											System.out.println("Pas de fichier");
-										//										}
-
-										return;
-									}
-
-									else {
-										System.out.println("Le fichier ne peut pas être affiché depuis l'app");
-									}
+									
 
 								}
 							});
+
+							aide.setOnAction(new EventHandler<ActionEvent>() {
+
+								@Override
+								public void handle(ActionEvent arg0) {
+									// TODO Auto-generated method stub
+									AidePDF.monPDFgo();
+
+								}
+							});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 						} catch(Exception e) {
