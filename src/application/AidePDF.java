@@ -13,7 +13,7 @@ public class AidePDF {
 		  public static String  monPDFgo (){
 		    try 
 		    {
-		    	File f  = new File("/home/matt/Documents/ISIKA/Projet1/liste.pdf");
+		    	File f  = new File("./src/application/data/Manuel.pdf");
 		    	Desktop.getDesktop().open(f);
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
